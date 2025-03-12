@@ -41,6 +41,7 @@ int main() {
     helper.help();
     ///////////////////////////////////////////////////////////////////////////
 
+    //random
     SomeClass *c = getC();
     std::cout << c << "\n";
     delete c;  // comentarea acestui rând ar trebui să ducă la semnalarea unui mem leak
@@ -87,6 +88,8 @@ int main() {
     PersonalizeazaAvion(avion); // Este o funcție care modifică dimensiunea avionului și îi pune originea în centru.
 
     tip_avion.setString("An airplane");
+
+    int random_number = 0;
 
     while(window.isOpen()) {
         bool shouldExit = false;
