@@ -16,19 +16,53 @@ private:
     int age;
     float weight;
     float height;
-    bool isHealthy;
+    float isHealthy;
     int price;
+    float foodLevel;
+
+    void updateHealth()
+    {
+        if (foodLevel < 0.2f)
+        {
+            isHealthy -= 0.1f;
+        }
+        else
+        {
+            isHealthy += 0.1f;
+        }
+    }
+
+    void isFeed(float food)
+    {
+        foodLevel += food;
+        if (foodLevel > 1.0f)
+        {
+            foodLevel = 1.0f;
+        }
+    }
+
+    void updateHunger(float deltaTime)
+    {
+        const float decayRate = 0.05f;
+        foodLevel -= decayRate * deltaTime;
+        if (foodLevel < 0.0f)
+        {
+            foodLevel = 0.0f;
+        }
+    }
+
 
 public:
-    Animal(const std::string &name, const std::string &species, int age, float weight, float height, bool is_healthy,
-           int price = 0)
+    Animal(const std::string &name, const std::string &species, int age, float weight, float height, float is_healthy,
+           int price = 0, float hunger = 0.0f)
         : name(name),
           species(species),
           age(age),
           weight(weight),
           height(height),
           isHealthy(is_healthy),
-          price(price)
+          price(price),
+          foodLevel(hunger)
     {
     }
 
@@ -41,7 +75,8 @@ public:
           weight(other.weight),
           height(other.height),
           isHealthy(other.isHealthy),
-          price(other.price)
+          price(other.price),
+          foodLevel(other.foodLevel)
     {
     }
 
@@ -52,7 +87,8 @@ public:
           weight(other.weight),
           height(other.height),
           isHealthy(other.isHealthy),
-          price(other.price)
+          price(other.price),
+          foodLevel(other.foodLevel)
     {
     }
 
@@ -67,6 +103,7 @@ public:
         height = other.height;
         isHealthy = other.isHealthy;
         price = other.price;
+        foodLevel = other.foodLevel;
         return *this;
     }
 
@@ -81,6 +118,7 @@ public:
         height = other.height;
         isHealthy = other.isHealthy;
         price = other.price;
+        foodLevel = other.foodLevel;
         return *this;
     }
 
@@ -134,12 +172,12 @@ public:
         this->height = newHeight;
     }
 
-    [[nodiscard]] bool getIsHealthy() const
+    [[nodiscard]] float getIsHealthy() const // Changed return type from bool to float
     {
         return isHealthy;
     }
 
-    void setIsHealthy(bool is_healthy)
+    void setIsHealthy(float is_healthy) // Changed parameter type from bool to float
     {
         isHealthy = is_healthy;
     }
@@ -154,6 +192,16 @@ public:
         price = new_price;
     }
 
+    [[nodiscard]] float getHunger() const
+    {
+        return foodLevel;
+    }
+
+    void setHunger(float newHunger)
+    {
+        this->foodLevel = newHunger;
+    }
+
     friend std::ostream &operator<<(std::ostream &os, const Animal &animal)
     {
         os << "Animal: " << animal.name << "\n"
@@ -161,13 +209,12 @@ public:
                 << "  Age: " << animal.age << " years\n"
                 << "  Weight: " << animal.weight << " kg\n"
                 << "  Height: " << animal.height << " cm\n"
-                << "  Health Status: " << (animal.isHealthy ? "Healthy" : "Sick") << "\n"
+                << "  Health Status: " << (animal.isHealthy * 100) << "%" << "\n"
+                << "  Hunger Level: " << (animal.foodLevel * 100) << "%" << "\n"
                 << "  Price: $" << animal.price;
         return os;
     }
 };
-
-
 
 class Habitat
 {
@@ -633,108 +680,6 @@ public:
 
 int main()
 {
-    std::cout << "===== Testing All Classes with operator<< =====" << std::endl;
-
-    // Animal class testing
-    std::cout << "\n----- Animal Class -----" << std::endl;
-    Animal lion("Leo", "Lion", 5, 190.5, 120.0, true, 5000);
-
-    // Display initial values using operator<<
-    std::cout << "Initial Animal Values:" << std::endl;
-    std::cout << lion << std::endl;
-
-    // Use all setters
-    lion.setName("King");
-    lion.setSpecies("African Lion");
-    lion.setAge(6);
-    lion.setWeight(200.0);
-    lion.setHeight(125.0);
-    lion.setIsHealthy(false);
-    lion.setPrice(5500);
-
-    // Display updated values
-    std::cout << "\nUpdated Animal Values:" << std::endl;
-    std::cout << lion << std::endl;
-
-    // Habitat class testing
-    std::cout << "\n----- Habitat Class -----" << std::endl;
-    std::vector<Animal> savanna_animals = {lion};
-    Habitat savanna("Savanna", savanna_animals, 5, true, 10000.0f);
-
-    // Display initial values using operator<<
-    std::cout << "Initial Habitat Values:" << std::endl;
-    std::cout << savanna << std::endl;
-
-    // Use setters and add animals
-    Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
-    savanna.setType("African Savanna");
-    savanna.addAnimals(tiger);
-    savanna.setCapacity(8);
-    savanna.setIsClean(false);
-    savanna.setPrice(12000.0f);
-
-    // Display updated values
-    std::cout << "\nUpdated Habitat Values:" << std::endl;
-    std::cout << savanna << std::endl;
-
-    // Zoo class testing
-    std::cout << "\n----- Zoo Class -----" << std::endl;
-    std::vector<Habitat> zoo_habitats = {savanna};
-    Zoo wildPark("Wild Park", zoo_habitats, 0, false, 100000.0f);
-
-    // Display initial values using operator<<
-    std::cout << "Initial Zoo Values:" << std::endl;
-    std::cout << wildPark << std::endl;
-
-    // Use setters and add habitats
-    Habitat jungle("Jungle", std::vector<Animal>{tiger}, 3, false, 8000.0f);
-    wildPark.setName("Amazing Wild Park");
-    wildPark.addHabitats(jungle);
-    wildPark.setVisitorCount(50);
-    wildPark.setIsOpen(true);
-    wildPark.setBuget(120000.0f);
-
-    // Display updated values
-    std::cout << "\nUpdated Zoo Values:" << std::endl;
-    std::cout << wildPark << std::endl;
-
-    // Staff class testing
-    std::cout << "\n----- Staff Class -----" << std::endl;
-    Staff zookeeper("John Smith", "Zookeeper", 35, 3500.0f);
-
-    // Display initial values using operator<<
-    std::cout << "Initial Staff Values:" << std::endl;
-    std::cout << zookeeper << std::endl;
-
-    // Use all setters
-    zookeeper.setName("John A. Smith");
-    zookeeper.setPosition("Senior Zookeeper");
-    zookeeper.setAge(36);
-    zookeeper.setSalary(3800.0f);
-
-    // Display updated values
-    std::cout << "\nUpdated Staff Values:" << std::endl;
-    std::cout << zookeeper << std::endl;
-
-    // Visitor class testing
-    std::cout << "\n----- Visitor Class -----" << std::endl;
-    Visitor adult("Alice Williams", 30, 100.0f);
-
-    // Display initial values using operator<<
-    std::cout << "Initial Visitor Values:" << std::endl;
-    std::cout << adult << std::endl;
-
-    // Use all setters
-    adult.setName("Alice J. Williams");
-    adult.setAge(31);
-    adult.setMoney(85.0f);
-
-    // Display updated values
-    std::cout << "\nUpdated Visitor Values:" << std::endl;
-    std::cout << adult << std::endl;
-
-    std::cout << "\n===== Testing Complete =====" << std::endl;
-
     return 0;
 }
 

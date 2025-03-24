@@ -1,4 +1,8 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+#ZooTycoon
+
+## Introducere
+Acesta este un proiect de tip joc, inspirat din jocul Zoo Tycoon, în care jucătorul își poate construi și gestiona propriul zoo. Proiectul este realizat în C++ și utilizează biblioteca SFML pentru grafică și interacțiune.
+
 
 ### Folosiți template-ul corespunzător grupei voastre!
 
