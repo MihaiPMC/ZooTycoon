@@ -96,72 +96,72 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string name1() const
+    [[nodiscard]] std::string getName() const
     {
         return name;
     }
 
-    void set_name(const std::string &name)
+    void setName(const std::string &name)
     {
         this->name = name;
     }
 
-    [[nodiscard]] std::string species1() const
+    [[nodiscard]] std::string getSpecies() const
     {
         return species;
     }
 
-    void set_species(const std::string &species)
+    void setSpecies(const std::string &species)
     {
         this->species = species;
     }
 
-    [[nodiscard]] int age1() const
+    [[nodiscard]] int getAge() const
     {
         return age;
     }
 
-    void set_age(int age)
+    void setAge(int age)
     {
         this->age = age;
     }
 
-    [[nodiscard]] float weight1() const
+    [[nodiscard]] float getWeight() const
     {
         return weight;
     }
 
-    void set_weight(float weight)
+    void setWeight(float weight)
     {
         this->weight = weight;
     }
 
-    [[nodiscard]] float height1() const
+    [[nodiscard]] float getHeight() const
     {
         return height;
     }
 
-    void set_height(float height)
+    void setHeight(float height)
     {
         this->height = height;
     }
 
-    [[nodiscard]] bool is_healthy() const
+    [[nodiscard]] bool getIsHealthy() const
     {
         return isHealthy;
     }
 
-    void set_is_healthy(bool is_healthy)
+    void setIsHealthy(bool is_healthy)
     {
         isHealthy = is_healthy;
     }
 
-    [[nodiscard]] int get_price() const
+    [[nodiscard]] int getPrice() const
     {
         return price;
     }
 
-    void set_price(int new_price)
+    void setPrice(int new_price)
     {
         price = new_price;
     }
@@ -229,52 +229,52 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string type1() const
+    [[nodiscard]] std::string getType() const
     {
         return type;
     }
 
-    void set_type(const std::string &type)
+    void setType(const std::string &type)
     {
         this->type = type;
     }
 
-    [[nodiscard]] std::vector<Animal> animals1() const
+    [[nodiscard]] std::vector<Animal> getAnimals() const
     {
         return animals;
     }
 
-    void set_animals(const std::vector<Animal> &animals)
+    void setAnimals(const std::vector<Animal> &animals)
     {
         this->animals = animals;
     }
 
-    [[nodiscard]] int capacity1() const
+    [[nodiscard]] int getCapacity() const
     {
         return capacity;
     }
 
-    void set_capacity(int capacity)
+    void setCapacity(int capacity)
     {
         this->capacity = capacity;
     }
 
-    [[nodiscard]] bool is_clean() const
+    [[nodiscard]] bool getIsClean() const
     {
         return isClean;
     }
 
-    void set_is_clean(bool is_clean)
+    void setIsClean(bool is_clean)
     {
         isClean = is_clean;
     }
 
-    [[nodiscard]] float get_price() const
+    [[nodiscard]] float getPrice() const
     {
         return price;
     }
 
-    void set_price(float new_price)
+    void setPrice(float new_price)
     {
         price = new_price;
     }
@@ -343,52 +343,52 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string name1() const
+    [[nodiscard]] std::string getName() const
     {
         return name;
     }
 
-    void set_name(const std::string &name)
+    void setName(const std::string &name)
     {
         this->name = name;
     }
 
-    [[nodiscard]] std::vector<Habitat> habitats1() const
+    [[nodiscard]] std::vector<Habitat> getHabitats() const
     {
         return habitats;
     }
 
-    void set_habitats(const std::vector<Habitat> &habitats)
+    void setHabitats(const std::vector<Habitat> &habitats)
     {
         this->habitats = habitats;
     }
 
-    [[nodiscard]] int visitor_count() const
+    [[nodiscard]] int getVisitorCount() const
     {
         return visitorCount;
     }
 
-    void set_visitor_count(int visitor_count)
+    void setVisitorCount(int visitor_count)
     {
         visitorCount = visitor_count;
     }
 
-    [[nodiscard]] bool is_open() const
+    [[nodiscard]] bool getIsOpen() const
     {
         return isOpen;
     }
 
-    void set_is_open(bool is_open)
+    void setIsOpen(bool is_open)
     {
         isOpen = is_open;
     }
 
-    [[nodiscard]] float buget1() const
+    [[nodiscard]] float getBuget() const
     {
         return buget;
     }
 
-    void set_buget(float buget)
+    void setBuget(float buget)
     {
         this->buget = buget;
     }
@@ -451,42 +451,42 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string name1() const
+    [[nodiscard]] std::string getName() const
     {
         return name;
     }
 
-    void set_name(const std::string &name)
+    void setName(const std::string &name)
     {
         this->name = name;
     }
 
-    [[nodiscard]] std::string position1() const
+    [[nodiscard]] std::string getPosition() const
     {
         return position;
     }
 
-    void set_position(const std::string &position)
+    void setPosition(const std::string &position)
     {
         this->position = position;
     }
 
-    [[nodiscard]] int age1() const
+    [[nodiscard]] int getAge() const
     {
         return age;
     }
 
-    void set_age(int age)
+    void setAge(int age)
     {
         this->age = age;
     }
 
-    [[nodiscard]] float salary1() const
+    [[nodiscard]] float getSalary() const
     {
         return salary;
     }
 
-    void set_salary(float salary)
+    void setSalary(float salary)
     {
         this->salary = salary;
     }
@@ -542,32 +542,32 @@ private:
         return *this;
     }
 
-    [[nodiscard]] std::string name1() const
+    [[nodiscard]] std::string getName() const
     {
         return name;
     }
 
-    void set_name(const std::string &NewName)
+    void setName(const std::string &NewName)
     {
         this->name = NewName;
     }
 
-    [[nodiscard]] int age1() const
+    [[nodiscard]] int getAge() const
     {
         return age;
     }
 
-    void set_age(int age)
+    void setAge(int age)
     {
         this->age = age;
     }
 
-    [[nodiscard]] float money1() const
+    [[nodiscard]] float getMoney() const
     {
         return money;
     }
 
-    void set_money(float money)
+    void setMoney(float money)
     {
         this->money = money;
     }
