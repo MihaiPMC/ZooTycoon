@@ -498,14 +498,12 @@ private:
     std::string name;
     int age;
     float money;
-    bool isHappy;
 
     public:
-    Visitor(const std::string &name, int age, float money, bool is_happy)
+    Visitor(const std::string &name, int age, float money)
         : name(name),
           age(age),
-          money(money),
-          isHappy(is_happy)
+          money(money)
     {
     }
     ~Visitor() = default;
@@ -513,16 +511,14 @@ private:
     Visitor(const Visitor &other)
         : name(other.name),
           age(other.age),
-          money(other.money),
-          isHappy(other.isHappy)
+          money(other.money)
     {
     }
 
     Visitor(Visitor &&other) noexcept
         : name(std::move(other.name)),
           age(other.age),
-          money(other.money),
-          isHappy(other.isHappy)
+          money(other.money)
     {
     }
 
@@ -533,7 +529,6 @@ private:
         name = other.name;
         age = other.age;
         money = other.money;
-        isHappy = other.isHappy;
         return *this;
     }
 
@@ -544,7 +539,6 @@ private:
         name = std::move(other.name);
         age = other.age;
         money = other.money;
-        isHappy = other.isHappy;
         return *this;
     }
 
@@ -553,9 +547,9 @@ private:
         return name;
     }
 
-    void set_name(const std::string &name)
+    void set_name(const std::string &NewName)
     {
-        this->name = name;
+        this->name = NewName;
     }
 
     [[nodiscard]] int age1() const
@@ -576,16 +570,6 @@ private:
     void set_money(float money)
     {
         this->money = money;
-    }
-
-    [[nodiscard]] bool is_happy() const
-    {
-        return isHappy;
-    }
-
-    void set_is_happy(bool is_happy)
-    {
-        isHappy = is_happy;
     }
 };
 
