@@ -2,17 +2,48 @@
 #include <array>
 #include <chrono>
 #include <thread>
+#include <map>
 
 #include <SFML/Graphics.hpp>
 
 #include <Helper.h>
 
-
 class Animal
 {
+public:
+    enum class Species
+    {
+        Lion,
+        Tiger,
+        Elephant,
+        Giraffe,
+        Bear,
+        Monkey,
+        Zebra,
+        Rhino,
+        Hippo,
+        Crocodile
+    };
+
+    static std::string speciesString(Species species) {
+        static const std::map<Species, std::string> speciesMap = {
+            {Species::Lion, "Lion"},
+            {Species::Tiger, "Tiger"},
+            {Species::Elephant, "Elephant"},
+            {Species::Giraffe, "Giraffe"},
+            {Species::Bear, "Bear"},
+            {Species::Monkey, "Monkey"},
+            {Species::Zebra, "Zebra"},
+            {Species::Rhino, "Rhino"},
+            {Species::Hippo, "Hippo"},
+            {Species::Crocodile, "Crocodile"}
+        };
+        return speciesMap.at(species);
+    }
+
 private:
     std::string name;
-    std::string species;
+    Species species;
     int age;
     float weight;
     float height;
@@ -53,7 +84,7 @@ private:
 
 
 public:
-    Animal(const std::string &name, const std::string &species, int age, float weight, float height, float is_healthy,
+    Animal(const std::string &name, Species species, int age, float weight, float height, float is_healthy,
            int price = 0, float hunger = 0.0f)
         : name(name),
           species(species),
@@ -132,12 +163,12 @@ public:
         this->name = newName;
     }
 
-    [[nodiscard]] const std::string &getSpecies() const
+    [[nodiscard]] Species getSpecies() const
     {
         return species;
     }
 
-    void setSpecies(const std::string &newSpecies)
+    void setSpecies(Species newSpecies)
     {
         this->species = newSpecies;
     }
@@ -172,12 +203,12 @@ public:
         this->height = newHeight;
     }
 
-    [[nodiscard]] float getIsHealthy() const // Changed return type from bool to float
+    [[nodiscard]] float getIsHealthy() const
     {
         return isHealthy;
     }
 
-    void setIsHealthy(float is_healthy) // Changed parameter type from bool to float
+    void setIsHealthy(float is_healthy)
     {
         isHealthy = is_healthy;
     }
@@ -205,7 +236,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Animal &animal)
     {
         os << "Animal: " << animal.name << "\n"
-                << "  Species: " << animal.species << "\n"
+                << "  Species: " << speciesString(animal.species) << "\n"
                 << "  Age: " << animal.age << " years\n"
                 << "  Weight: " << animal.weight << " kg\n"
                 << "  Height: " << animal.height << " cm\n"
@@ -218,15 +249,36 @@ public:
 
 class Habitat
 {
+public:
+    enum class Type
+    {
+        Forest,
+        Desert,
+        Ocean,
+        Grassland,
+        Mountain
+    };
+
+    static std::string typeString(Type type) {
+        static const std::map<Type, std::string> typeMap = {
+            {Type::Forest, "Forest"},
+            {Type::Desert, "Desert"},
+            {Type::Ocean, "Ocean"},
+            {Type::Grassland, "Grassland"},
+            {Type::Mountain, "Mountain"}
+        };
+        return typeMap.at(type);
+    }
+
 private:
-    std::string type;
+    Type type;
     std::vector<Animal> animals;
     int capacity;
     bool isClean;
     float price;
 
 public:
-    Habitat(const std::string &type, const std::vector<Animal> &animals, int capacity, bool is_clean,
+    Habitat(Type type, const std::vector<Animal> &animals, int capacity, bool is_clean,
             float price = 0.0f)
         : type(type),
           animals(animals),
@@ -280,12 +332,12 @@ public:
         return *this;
     }
 
-    [[nodiscard]] const std::string &getType() const
+    [[nodiscard]] Type getType() const
     {
         return type;
     }
 
-    void setType(const std::string &newType)
+    void setType(Type newType)
     {
         this->type = newType;
     }
@@ -340,7 +392,7 @@ public:
     
     friend std::ostream &operator<<(std::ostream &os, const Habitat &habitat)
     {
-        os << "Habitat: " << habitat.type << "\n"
+        os << "Habitat: " << typeString(habitat.type) << "\n"
            << "  Capacity: " << habitat.capacity << "\n"
            << "  Status: " << (habitat.isClean ? "Clean" : "Dirty") << "\n"
            << "  Price: $" << habitat.price << "\n"
@@ -359,6 +411,8 @@ private:
     float buget;
 
 public:
+    
+    
     Zoo(const std::string &name, const std::vector<Habitat> &habitats, int visitor_count, bool is_open, float buget)
         : name(name),
           habitats(habitats),
@@ -469,6 +523,42 @@ public:
     {
         this->buget = newBuget;
     }
+
+    bool feedAnimals(float foodAmountPerAnimal = 0.3f, float costPerAnimal = 10.0f)
+    {
+        int totalAnimals = 0;
+        float totalCost = 0.0f;
+
+        for (const auto& habitat : habitats)
+        {
+            totalAnimals += habitat.getAnimals().size();
+        }
+
+        totalCost = totalAnimals * costPerAnimal;
+
+        if (buget < totalCost)
+        {
+            std::cout << "Not enough budget to feed all animals!" << std::endl;
+            return false;
+        }
+
+        for (auto& habitat : habitats)
+        {
+            for (auto& animal : const_cast<std::vector<Animal>&>(habitat.getAnimals()))
+            {
+                animal.setHunger(std::min(1.0f, animal.getHunger() + foodAmountPerAnimal));
+            }
+        }
+
+        buget -= totalCost;
+
+        std::cout << "Fed " << totalAnimals << " animals for a total cost of $" << totalCost << std::endl;
+        std::cout << "Remaining budget: $" << buget << std::endl;
+
+        return true;
+    }
+    
+
     
     friend std::ostream &operator<<(std::ostream &os, const Zoo &zoo)
     {
@@ -483,14 +573,35 @@ public:
 
 class Staff
 {
+public:
+    enum class Position
+    {
+        Zookeeper,
+        Veterinarian,
+        Guide,
+        Maintenance,
+        Manager
+    };
+
+    static std::string positionString(Position position) {
+        static const std::map<Position, std::string> positionMap = {
+            {Position::Zookeeper, "Zookeeper"},
+            {Position::Veterinarian, "Veterinarian"},
+            {Position::Guide, "Guide"},
+            {Position::Maintenance, "Maintenance"},
+            {Position::Manager, "Manager"}
+        };
+        return positionMap.at(position);
+    }
+
 private:
     std::string name;
-    std::string position;
+    Position position;
     int age;
     float salary;
 
 public:
-    Staff(const std::string &name, const std::string &position, int age, float salary)
+    Staff(const std::string &name, Position position, int age, float salary)
         : name(name),
           position(position),
           age(age),
@@ -548,12 +659,12 @@ public:
         this->name = newName;
     }
 
-    [[nodiscard]] const std::string &getPosition() const
+    [[nodiscard]] Position getPosition() const
     {
         return position;
     }
 
-    void setPosition(const std::string &newPosition)
+    void setPosition(Position newPosition)
     {
         this->position = newPosition;
     }
@@ -581,7 +692,7 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Staff &staff)
     {
         os << "Staff: " << staff.name << "\n"
-           << "  Position: " << staff.position << "\n"
+           << "  Position: " << positionString(staff.position) << "\n"
            << "  Age: " << staff.age << " years\n"
            << "  Salary: $" << staff.salary;
         return os;
@@ -590,16 +701,37 @@ public:
 
 class Visitor
 {
+public:
+    enum class Type
+    {
+        Adult,
+        Child,
+        Senior,
+        Student
+    };
+
+    static std::string typeString(Type type) {
+        static const std::map<Type, std::string> typeMap = {
+            {Type::Adult, "Adult"},
+            {Type::Child, "Child"},
+            {Type::Senior, "Senior"},
+            {Type::Student, "Student"}
+        };
+        return typeMap.at(type);
+    }
+
 private:
     std::string name;
     int age;
     float money;
+    Type type;
 
 public:
-    Visitor(const std::string &name, int age, float money)
+    Visitor(const std::string &name, int age, float money, Type type)
         : name(name),
           age(age),
-          money(money)
+          money(money),
+          type(type)
     {
     }
 
@@ -608,14 +740,16 @@ public:
     Visitor(const Visitor &other)
         : name(other.name),
           age(other.age),
-          money(other.money)
+          money(other.money),
+          type(other.type)
     {
     }
 
     Visitor(Visitor &&other) noexcept
         : name(std::move(other.name)),
           age(other.age),
-          money(other.money)
+          money(other.money),
+          type(other.type)
     {
     }
 
@@ -626,6 +760,7 @@ public:
         name = other.name;
         age = other.age;
         money = other.money;
+        type = other.type;
         return *this;
     }
 
@@ -636,6 +771,7 @@ public:
         name = std::move(other.name);
         age = other.age;
         money = other.money;
+        type = other.type;
         return *this;
     }
 
@@ -669,9 +805,20 @@ public:
         this->money = newMoney;
     }
     
+    [[nodiscard]] Type getType() const
+    {
+        return type;
+    }
+
+    void setType(Type newType)
+    {
+        this->type = newType;
+    }
+    
     friend std::ostream &operator<<(std::ostream &os, const Visitor &visitor)
     {
         os << "Visitor: " << visitor.name << "\n"
+           << "  Type: " << typeString(visitor.type) << "\n"
            << "  Age: " << visitor.age << " years\n"
            << "  Money: $" << visitor.money;
         return os;
@@ -680,6 +827,7 @@ public:
 
 int main()
 {
+
     return 0;
 }
 
