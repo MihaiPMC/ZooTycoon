@@ -8,9 +8,6 @@
 #include <Helper.h>
 
 
-
-
-
 class Animal
 {
     private:
@@ -90,9 +87,9 @@ public:
         return name;
     }
 
-    void setName(const std::string &name)
+    void setName(const std::string &newName)
     {
-        this->name = name;
+        this->name = newName;
     }
 
     [[nodiscard]] const std::string& getSpecies() const
@@ -100,9 +97,9 @@ public:
         return species;
     }
 
-    void setSpecies(const std::string &species)
+    void setSpecies(const std::string &newSpecies)
     {
-        this->species = species;
+        this->species = newSpecies;
     }
 
     [[nodiscard]] int getAge() const
@@ -110,9 +107,9 @@ public:
         return age;
     }
 
-    void setAge(int age)
+    void setAge(int newAge)
     {
-        this->age = age;
+        this->age = newAge;
     }
 
     [[nodiscard]] float getWeight() const
@@ -120,9 +117,9 @@ public:
         return weight;
     }
 
-    void setWeight(float weight)
+    void setWeight(float newWeight)
     {
-        this->weight = weight;
+        this->weight = newWeight;
     }
 
     [[nodiscard]] float getHeight() const
@@ -130,9 +127,9 @@ public:
         return height;
     }
 
-    void setHeight(float height)
+    void setHeight(float newHeight)
     {
-        this->height = height;
+        this->height = newHeight;
     }
 
     [[nodiscard]] bool getIsHealthy() const
@@ -223,19 +220,26 @@ public:
         return type;
     }
 
-    void setType(const std::string &type)
+    void setType(const std::string &newType)
     {
-        this->type = type;
+        this->type = newType;
     }
 
     [[nodiscard]] const std::vector<Animal>& getAnimals() const
     {
         return animals;
     }
-
-    void setAnimals(const std::vector<Animal> &animals)
+    
+    void addAnimals(const std::vector<Animal> &newAnimals)
     {
-        this->animals = animals;
+        for (const auto &animal : newAnimals) {
+            this->animals.push_back(animal);
+        }
+    }
+    
+    void addAnimals(const Animal &animal)
+    {
+        this->animals.push_back(animal);
     }
 
     [[nodiscard]] int getCapacity() const
@@ -243,9 +247,9 @@ public:
         return capacity;
     }
 
-    void setCapacity(int capacity)
+    void setCapacity(int newCapacity)
     {
-        this->capacity = capacity;
+        this->capacity = newCapacity;
     }
 
     [[nodiscard]] bool getIsClean() const
@@ -337,9 +341,9 @@ public:
         return name;
     }
 
-    void setName(const std::string &name)
+    void setName(const std::string &newName)
     {
-        this->name = name;
+        this->name = newName;
     }
 
     [[nodiscard]] const std::vector<Habitat>& getHabitats() const
@@ -347,9 +351,16 @@ public:
         return habitats;
     }
 
-    void setHabitats(const std::vector<Habitat> &habitats)
+    void addHabitats(const std::vector<Habitat> &newHabitats)
     {
-        this->habitats = habitats;
+        for (const auto &habitat : newHabitats) {
+            this->habitats.push_back(habitat);
+        }
+    }
+    
+    void addHabitats(const Habitat &habitat)
+    {
+        this->habitats.push_back(habitat);
     }
 
     [[nodiscard]] int getVisitorCount() const
@@ -377,9 +388,9 @@ public:
         return buget;
     }
 
-    void setBuget(float buget)
+    void setBuget(float newBuget)
     {
-        this->buget = buget;
+        this->buget = newBuget;
     }
 };
 
@@ -445,9 +456,9 @@ public:
         return name;
     }
 
-    void setName(const std::string &name)
+    void setName(const std::string &newName)
     {
-        this->name = name;
+        this->name = newName;
     }
 
     [[nodiscard]] const std::string& getPosition() const
@@ -455,9 +466,9 @@ public:
         return position;
     }
 
-    void setPosition(const std::string &position)
+    void setPosition(const std::string &newPosition)
     {
-        this->position = position;
+        this->position = newPosition;
     }
 
     [[nodiscard]] int getAge() const
@@ -465,9 +476,9 @@ public:
         return age;
     }
 
-    void setAge(int age)
+    void setAge(int newAge)
     {
-        this->age = age;
+        this->age = newAge;
     }
 
     [[nodiscard]] float getSalary() const
@@ -475,9 +486,9 @@ public:
         return salary;
     }
 
-    void setSalary(float salary)
+    void setSalary(float newSalary)
     {
-        this->salary = salary;
+        this->salary = newSalary;
     }
 };
 
@@ -546,9 +557,9 @@ private:
         return age;
     }
 
-    void setAge(int age)
+    void setAge(int newAge)
     {
-        this->age = age;
+        this->age = newAge;
     }
 
     [[nodiscard]] float getMoney() const
@@ -556,9 +567,9 @@ private:
         return money;
     }
 
-    void setMoney(float money)
+    void setMoney(float newMoney)
     {
-        this->money = money;
+        this->money = newMoney;
     }
 };
 
@@ -611,11 +622,10 @@ int main() {
     std::cout << "Cleanliness: " << (savanna.getIsClean() ? "Clean" : "Dirty") << std::endl;
     std::cout << "Price: $" << savanna.getPrice() << std::endl;
     
-    // Use all setters
+    // Use addAnimals instead of setAnimals
     Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
-    std::vector<Animal> new_animals = {lion, tiger};
     savanna.setType("African Savanna");
-    savanna.setAnimals(new_animals);
+    savanna.addAnimals(tiger);
     savanna.setCapacity(8);
     savanna.setIsClean(false);
     savanna.setPrice(12000.0f);
@@ -641,11 +651,10 @@ int main() {
     std::cout << "Status: " << (wildPark.getIsOpen() ? "Open" : "Closed") << std::endl;
     std::cout << "Budget: $" << wildPark.getBuget() << std::endl;
     
-    // Use all setters
+    // Use addHabitats instead of setHabitats
     Habitat jungle("Jungle", std::vector<Animal>{tiger}, 3, false, 8000.0f);
-    std::vector<Habitat> new_habitats = {savanna, jungle};
     wildPark.setName("Amazing Wild Park");
-    wildPark.setHabitats(new_habitats);
+    wildPark.addHabitats(jungle);
     wildPark.setVisitorCount(50);
     wildPark.setIsOpen(true);
     wildPark.setBuget(120000.0f);
