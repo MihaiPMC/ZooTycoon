@@ -59,8 +59,6 @@ endif()
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
     generated/src/Helper.cpp
-    ResourceManager.cpp
-    ResourceManager.hpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )
