@@ -10,7 +10,7 @@
 
 class Animal
 {
-    private:
+private:
     std::string name;
     std::string species;
     int age;
@@ -18,8 +18,10 @@ class Animal
     float height;
     bool isHealthy;
     int price;
+
 public:
-    Animal(const std::string &name, const std::string &species, int age, float weight, float height, bool is_healthy, int price = 0)
+    Animal(const std::string &name, const std::string &species, int age, float weight, float height, bool is_healthy,
+           int price = 0)
         : name(name),
           species(species),
           age(age),
@@ -54,7 +56,7 @@ public:
     {
     }
 
-    Animal & operator=(const Animal &other)
+    Animal &operator=(const Animal &other)
     {
         if (this == &other)
             return *this;
@@ -68,7 +70,7 @@ public:
         return *this;
     }
 
-    Animal & operator=(Animal &&other) noexcept
+    Animal &operator=(Animal &&other) noexcept
     {
         if (this == &other)
             return *this;
@@ -82,7 +84,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] const std::string& getName() const
+    [[nodiscard]] const std::string &getName() const
     {
         return name;
     }
@@ -92,7 +94,7 @@ public:
         this->name = newName;
     }
 
-    [[nodiscard]] const std::string& getSpecies() const
+    [[nodiscard]] const std::string &getSpecies() const
     {
         return species;
     }
@@ -151,18 +153,34 @@ public:
     {
         price = new_price;
     }
+
+    friend std::ostream &operator<<(std::ostream &os, const Animal &animal)
+    {
+        os << "Animal: " << animal.name << "\n"
+                << "  Species: " << animal.species << "\n"
+                << "  Age: " << animal.age << " years\n"
+                << "  Weight: " << animal.weight << " kg\n"
+                << "  Height: " << animal.height << " cm\n"
+                << "  Health Status: " << (animal.isHealthy ? "Healthy" : "Sick") << "\n"
+                << "  Price: $" << animal.price;
+        return os;
+    }
 };
+
+
 
 class Habitat
 {
-    private:
+private:
     std::string type;
     std::vector<Animal> animals;
     int capacity;
     bool isClean;
     float price;
+
 public:
-    Habitat(const std::string &type, const std::vector<Animal> &animals, int capacity, bool is_clean, float price = 0.0f)
+    Habitat(const std::string &type, const std::vector<Animal> &animals, int capacity, bool is_clean,
+            float price = 0.0f)
         : type(type),
           animals(animals),
           capacity(capacity),
@@ -191,7 +209,7 @@ public:
     {
     }
 
-    Habitat & operator=(const Habitat &other)
+    Habitat &operator=(const Habitat &other)
     {
         if (this == &other)
             return *this;
@@ -203,7 +221,7 @@ public:
         return *this;
     }
 
-    Habitat & operator=(Habitat &&other) noexcept
+    Habitat &operator=(Habitat &&other) noexcept
     {
         if (this == &other)
             return *this;
@@ -215,7 +233,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] const std::string& getType() const
+    [[nodiscard]] const std::string &getType() const
     {
         return type;
     }
@@ -225,18 +243,19 @@ public:
         this->type = newType;
     }
 
-    [[nodiscard]] const std::vector<Animal>& getAnimals() const
+    [[nodiscard]] const std::vector<Animal> &getAnimals() const
     {
         return animals;
     }
-    
+
     void addAnimals(const std::vector<Animal> &newAnimals)
     {
-        for (const auto &animal : newAnimals) {
+        for (const auto &animal: newAnimals)
+        {
             this->animals.push_back(animal);
         }
     }
-    
+
     void addAnimals(const Animal &animal)
     {
         this->animals.push_back(animal);
@@ -271,11 +290,21 @@ public:
     {
         price = new_price;
     }
+    
+    friend std::ostream &operator<<(std::ostream &os, const Habitat &habitat)
+    {
+        os << "Habitat: " << habitat.type << "\n"
+           << "  Capacity: " << habitat.capacity << "\n"
+           << "  Status: " << (habitat.isClean ? "Clean" : "Dirty") << "\n"
+           << "  Price: $" << habitat.price << "\n"
+           << "  Animals: " << habitat.animals.size();
+        return os;
+    }
 };
 
 class Zoo
 {
-    private:
+private:
     std::string name;
     std::vector<Habitat> habitats;
     int visitorCount;
@@ -312,7 +341,7 @@ public:
     {
     }
 
-    Zoo & operator=(const Zoo &other)
+    Zoo &operator=(const Zoo &other)
     {
         if (this == &other)
             return *this;
@@ -324,7 +353,7 @@ public:
         return *this;
     }
 
-    Zoo & operator=(Zoo &&other) noexcept
+    Zoo &operator=(Zoo &&other) noexcept
     {
         if (this == &other)
             return *this;
@@ -336,7 +365,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] const std::string& getName() const
+    [[nodiscard]] const std::string &getName() const
     {
         return name;
     }
@@ -346,18 +375,19 @@ public:
         this->name = newName;
     }
 
-    [[nodiscard]] const std::vector<Habitat>& getHabitats() const
+    [[nodiscard]] const std::vector<Habitat> &getHabitats() const
     {
         return habitats;
     }
 
     void addHabitats(const std::vector<Habitat> &newHabitats)
     {
-        for (const auto &habitat : newHabitats) {
+        for (const auto &habitat: newHabitats)
+        {
             this->habitats.push_back(habitat);
         }
     }
-    
+
     void addHabitats(const Habitat &habitat)
     {
         this->habitats.push_back(habitat);
@@ -392,11 +422,21 @@ public:
     {
         this->buget = newBuget;
     }
+    
+    friend std::ostream &operator<<(std::ostream &os, const Zoo &zoo)
+    {
+        os << "Zoo: " << zoo.name << "\n"
+           << "  Habitats: " << zoo.habitats.size() << "\n"
+           << "  Visitor Count: " << zoo.visitorCount << "\n"
+           << "  Status: " << (zoo.isOpen ? "Open" : "Closed") << "\n"
+           << "  Budget: $" << zoo.buget;
+        return os;
+    }
 };
 
 class Staff
 {
-    private:
+private:
     std::string name;
     std::string position;
     int age;
@@ -429,7 +469,7 @@ public:
     {
     }
 
-    Staff & operator=(const Staff &other)
+    Staff &operator=(const Staff &other)
     {
         if (this == &other)
             return *this;
@@ -440,7 +480,7 @@ public:
         return *this;
     }
 
-    Staff & operator=(Staff &&other) noexcept
+    Staff &operator=(Staff &&other) noexcept
     {
         if (this == &other)
             return *this;
@@ -451,7 +491,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] const std::string& getName() const
+    [[nodiscard]] const std::string &getName() const
     {
         return name;
     }
@@ -461,7 +501,7 @@ public:
         this->name = newName;
     }
 
-    [[nodiscard]] const std::string& getPosition() const
+    [[nodiscard]] const std::string &getPosition() const
     {
         return position;
     }
@@ -490,6 +530,15 @@ public:
     {
         this->salary = newSalary;
     }
+    
+    friend std::ostream &operator<<(std::ostream &os, const Staff &staff)
+    {
+        os << "Staff: " << staff.name << "\n"
+           << "  Position: " << staff.position << "\n"
+           << "  Age: " << staff.age << " years\n"
+           << "  Salary: $" << staff.salary;
+        return os;
+    }
 };
 
 class Visitor
@@ -499,13 +548,14 @@ private:
     int age;
     float money;
 
-    public:
+public:
     Visitor(const std::string &name, int age, float money)
         : name(name),
           age(age),
           money(money)
     {
     }
+
     ~Visitor() = default;
 
     Visitor(const Visitor &other)
@@ -522,7 +572,7 @@ private:
     {
     }
 
-    Visitor & operator=(const Visitor &other)
+    Visitor &operator=(const Visitor &other)
     {
         if (this == &other)
             return *this;
@@ -532,7 +582,7 @@ private:
         return *this;
     }
 
-    Visitor & operator=(Visitor &&other) noexcept
+    Visitor &operator=(Visitor &&other) noexcept
     {
         if (this == &other)
             return *this;
@@ -542,7 +592,7 @@ private:
         return *this;
     }
 
-    [[nodiscard]] const std::string& getName() const
+    [[nodiscard]] const std::string &getName() const
     {
         return name;
     }
@@ -571,25 +621,28 @@ private:
     {
         this->money = newMoney;
     }
+    
+    friend std::ostream &operator<<(std::ostream &os, const Visitor &visitor)
+    {
+        os << "Visitor: " << visitor.name << "\n"
+           << "  Age: " << visitor.age << " years\n"
+           << "  Money: $" << visitor.money;
+        return os;
+    }
 };
 
-int main() {
-    std::cout << "===== Testing All Getters and Setters =====" << std::endl;
+int main()
+{
+    std::cout << "===== Testing All Classes with operator<< =====" << std::endl;
 
     // Animal class testing
     std::cout << "\n----- Animal Class -----" << std::endl;
     Animal lion("Leo", "Lion", 5, 190.5, 120.0, true, 5000);
-    
-    // Display initial values using getters
+
+    // Display initial values using operator<<
     std::cout << "Initial Animal Values:" << std::endl;
-    std::cout << "Name: " << lion.getName() << std::endl;
-    std::cout << "Species: " << lion.getSpecies() << std::endl;
-    std::cout << "Age: " << lion.getAge() << std::endl;
-    std::cout << "Weight: " << lion.getWeight() << " kg" << std::endl;
-    std::cout << "Height: " << lion.getHeight() << " cm" << std::endl;
-    std::cout << "Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
-    std::cout << "Price: $" << lion.getPrice() << std::endl;
-    
+    std::cout << lion << std::endl;
+
     // Use all setters
     lion.setName("King");
     lion.setSpecies("African Lion");
@@ -598,122 +651,90 @@ int main() {
     lion.setHeight(125.0);
     lion.setIsHealthy(false);
     lion.setPrice(5500);
-    
+
     // Display updated values
     std::cout << "\nUpdated Animal Values:" << std::endl;
-    std::cout << "Name: " << lion.getName() << std::endl;
-    std::cout << "Species: " << lion.getSpecies() << std::endl;
-    std::cout << "Age: " << lion.getAge() << std::endl;
-    std::cout << "Weight: " << lion.getWeight() << " kg" << std::endl;
-    std::cout << "Height: " << lion.getHeight() << " cm" << std::endl;
-    std::cout << "Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
-    std::cout << "Price: $" << lion.getPrice() << std::endl;
-    
+    std::cout << lion << std::endl;
+
     // Habitat class testing
     std::cout << "\n----- Habitat Class -----" << std::endl;
     std::vector<Animal> savanna_animals = {lion};
     Habitat savanna("Savanna", savanna_animals, 5, true, 10000.0f);
-    
-    // Display initial values using getters
+
+    // Display initial values using operator<<
     std::cout << "Initial Habitat Values:" << std::endl;
-    std::cout << "Type: " << savanna.getType() << std::endl;
-    std::cout << "Number of Animals: " << savanna.getAnimals().size() << std::endl;
-    std::cout << "Capacity: " << savanna.getCapacity() << std::endl;
-    std::cout << "Cleanliness: " << (savanna.getIsClean() ? "Clean" : "Dirty") << std::endl;
-    std::cout << "Price: $" << savanna.getPrice() << std::endl;
-    
-    // Use addAnimals instead of setAnimals
+    std::cout << savanna << std::endl;
+
+    // Use setters and add animals
     Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
     savanna.setType("African Savanna");
     savanna.addAnimals(tiger);
     savanna.setCapacity(8);
     savanna.setIsClean(false);
     savanna.setPrice(12000.0f);
-    
+
     // Display updated values
     std::cout << "\nUpdated Habitat Values:" << std::endl;
-    std::cout << "Type: " << savanna.getType() << std::endl;
-    std::cout << "Number of Animals: " << savanna.getAnimals().size() << std::endl;
-    std::cout << "Capacity: " << savanna.getCapacity() << std::endl;
-    std::cout << "Cleanliness: " << (savanna.getIsClean() ? "Clean" : "Dirty") << std::endl;
-    std::cout << "Price: $" << savanna.getPrice() << std::endl;
-    
+    std::cout << savanna << std::endl;
+
     // Zoo class testing
     std::cout << "\n----- Zoo Class -----" << std::endl;
     std::vector<Habitat> zoo_habitats = {savanna};
     Zoo wildPark("Wild Park", zoo_habitats, 0, false, 100000.0f);
-    
-    // Display initial values using getters
+
+    // Display initial values using operator<<
     std::cout << "Initial Zoo Values:" << std::endl;
-    std::cout << "Name: " << wildPark.getName() << std::endl;
-    std::cout << "Number of Habitats: " << wildPark.getHabitats().size() << std::endl;
-    std::cout << "Visitor Count: " << wildPark.getVisitorCount() << std::endl;
-    std::cout << "Status: " << (wildPark.getIsOpen() ? "Open" : "Closed") << std::endl;
-    std::cout << "Budget: $" << wildPark.getBuget() << std::endl;
-    
-    // Use addHabitats instead of setHabitats
+    std::cout << wildPark << std::endl;
+
+    // Use setters and add habitats
     Habitat jungle("Jungle", std::vector<Animal>{tiger}, 3, false, 8000.0f);
     wildPark.setName("Amazing Wild Park");
     wildPark.addHabitats(jungle);
     wildPark.setVisitorCount(50);
     wildPark.setIsOpen(true);
     wildPark.setBuget(120000.0f);
-    
+
     // Display updated values
     std::cout << "\nUpdated Zoo Values:" << std::endl;
-    std::cout << "Name: " << wildPark.getName() << std::endl;
-    std::cout << "Number of Habitats: " << wildPark.getHabitats().size() << std::endl;
-    std::cout << "Visitor Count: " << wildPark.getVisitorCount() << std::endl;
-    std::cout << "Status: " << (wildPark.getIsOpen() ? "Open" : "Closed") << std::endl;
-    std::cout << "Budget: $" << wildPark.getBuget() << std::endl;
-    
+    std::cout << wildPark << std::endl;
+
     // Staff class testing
     std::cout << "\n----- Staff Class -----" << std::endl;
     Staff zookeeper("John Smith", "Zookeeper", 35, 3500.0f);
-    
-    // Display initial values using getters
+
+    // Display initial values using operator<<
     std::cout << "Initial Staff Values:" << std::endl;
-    std::cout << "Name: " << zookeeper.getName() << std::endl;
-    std::cout << "Position: " << zookeeper.getPosition() << std::endl;
-    std::cout << "Age: " << zookeeper.getAge() << std::endl;
-    std::cout << "Salary: $" << zookeeper.getSalary() << std::endl;
-    
+    std::cout << zookeeper << std::endl;
+
     // Use all setters
     zookeeper.setName("John A. Smith");
     zookeeper.setPosition("Senior Zookeeper");
     zookeeper.setAge(36);
     zookeeper.setSalary(3800.0f);
-    
+
     // Display updated values
     std::cout << "\nUpdated Staff Values:" << std::endl;
-    std::cout << "Name: " << zookeeper.getName() << std::endl;
-    std::cout << "Position: " << zookeeper.getPosition() << std::endl;
-    std::cout << "Age: " << zookeeper.getAge() << std::endl;
-    std::cout << "Salary: $" << zookeeper.getSalary() << std::endl;
-    
+    std::cout << zookeeper << std::endl;
+
     // Visitor class testing
     std::cout << "\n----- Visitor Class -----" << std::endl;
     Visitor adult("Alice Williams", 30, 100.0f);
-    
-    // Display initial values using getters
+
+    // Display initial values using operator<<
     std::cout << "Initial Visitor Values:" << std::endl;
-    std::cout << "Name: " << adult.getName() << std::endl;
-    std::cout << "Age: " << adult.getAge() << std::endl;
-    std::cout << "Money: $" << adult.getMoney() << std::endl;
-    
+    std::cout << adult << std::endl;
+
     // Use all setters
     adult.setName("Alice J. Williams");
     adult.setAge(31);
     adult.setMoney(85.0f);
-    
+
     // Display updated values
     std::cout << "\nUpdated Visitor Values:" << std::endl;
-    std::cout << "Name: " << adult.getName() << std::endl;
-    std::cout << "Age: " << adult.getAge() << std::endl;
-    std::cout << "Money: $" << adult.getMoney() << std::endl;
-    
+    std::cout << adult << std::endl;
+
     std::cout << "\n===== Testing Complete =====" << std::endl;
-    
+
     return 0;
 }
 
