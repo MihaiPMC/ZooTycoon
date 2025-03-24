@@ -574,7 +574,95 @@ private:
 };
 
 int main() {
+    // Create animals
+    Animal lion("Leo", "Lion", 5, 190.5, 120.0, true, 5000);
+    Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
+    Animal elephant("Dumbo", "Elephant", 10, 4500.0, 300.0, true, 8000);
+    Animal giraffe("Spots", "Giraffe", 7, 1200.0, 500.0, false, 6000);
+    
+    // Display animal information
+    std::cout << "Animal Example:" << std::endl;
+    std::cout << "Name: " << lion.getName() << ", Species: " << lion.getSpecies() 
+              << ", Age: " << lion.getAge() << ", Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    
+    // Update animal information
+    giraffe.setIsHealthy(true);
+    std::cout << "Updated " << giraffe.getName() << "'s health status to: " 
+              << (giraffe.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    
+    // Create habitats
+    std::vector<Animal> savanna_animals = {lion, giraffe};
+    std::vector<Animal> jungle_animals = {tiger};
+    std::vector<Animal> forest_animals = {elephant};
+    
+    Habitat savanna("Savanna", savanna_animals, 5, true, 10000.0f);
+    Habitat jungle("Jungle", jungle_animals, 3, false, 8000.0f);
+    Habitat forest("Forest", forest_animals, 4, true, 7500.0f);
+    
+    // Display habitat information
+    std::cout << "\nHabitat Example:" << std::endl;
+    std::cout << "Type: " << savanna.getType() << ", Capacity: " << savanna.getCapacity() 
+              << ", Clean: " << (savanna.getIsClean() ? "Yes" : "No") 
+              << ", Animals: " << savanna.getAnimals().size() << std::endl;
+    
+    // Clean the jungle habitat
+    jungle.setIsClean(true);
+    std::cout << "Cleaned the " << jungle.getType() << " habitat. Status: " 
+              << (jungle.getIsClean() ? "Clean" : "Dirty") << std::endl;
+    
+    // Create zoo with habitats
+    std::vector<Habitat> zoo_habitats = {savanna, jungle, forest};
+    Zoo wildPark("Wild Park", zoo_habitats, 0, false, 100000.0f);
+    
+    // Display zoo information
+    std::cout << "\nZoo Example:" << std::endl;
+    std::cout << "Name: " << wildPark.getName() 
+              << ", Number of Habitats: " << wildPark.getHabitats().size() 
+              << ", Budget: $" << wildPark.getBuget() << std::endl;
+    
+    // Open the zoo
+    wildPark.setIsOpen(true);
+    std::cout << "Zoo is now " << (wildPark.getIsOpen() ? "open" : "closed") << " for visitors" << std::endl;
+    
+    // Create staff members
+    Staff zookeeper("John Smith", "Zookeeper", 35, 3500.0f);
+    Staff veterinarian("Sarah Johnson", "Veterinarian", 40, 5000.0f);
+    Staff manager("Michael Brown", "Manager", 45, 6500.0f);
+    
+    // Display staff information
+    std::cout << "\nStaff Example:" << std::endl;
+    std::cout << "Name: " << zookeeper.getName() << ", Position: " << zookeeper.getPosition() 
+              << ", Age: " << zookeeper.getAge() << ", Salary: $" << zookeeper.getSalary() << std::endl;
+    
+    // Give a raise to the veterinarian
+    float newSalary = veterinarian.getSalary() * 1.1f; // 10% raise
+    veterinarian.setSalary(newSalary);
+    std::cout << veterinarian.getName() << " received a raise. New salary: $" << veterinarian.getSalary() << std::endl;
+    
+    // Create visitors
+    Visitor adult("Alice Williams", 30, 100.0f);
+    Visitor child("Bobby Williams", 8, 20.0f);
+    Visitor senior("George Davis", 70, 50.0f);
+    
+    // Display visitor information
+    std::cout << "\nVisitor Example:" << std::endl;
+    std::cout << "Name: " << adult.getName() << ", Age: " << adult.getAge() 
+              << ", Available Money: $" << adult.getMoney() << std::endl;
+    
+    // Visitors pay entrance fee
+    float entranceFee = 15.0f;
+    adult.setMoney(adult.getMoney() - entranceFee);
+    child.setMoney(child.getMoney() - (entranceFee / 2)); // Half price for children
+    senior.setMoney(senior.getMoney() - (entranceFee * 0.7f)); // 30% discount for seniors
+    
+    // Update zoo visitor count and budget
+    wildPark.setVisitorCount(wildPark.getVisitorCount() + 3);
+    wildPark.setBuget(wildPark.getBuget() + entranceFee + (entranceFee / 2) + (entranceFee * 0.7f));
+    
+    std::cout << "After visitors entered:" << std::endl;
+    std::cout << "Zoo visitor count: " << wildPark.getVisitorCount() << std::endl;
+    std::cout << "Zoo budget: $" << wildPark.getBuget() << std::endl;
+    std::cout << adult.getName() << " has $" << adult.getMoney() << " left" << std::endl;
 
     return 0;
 }
-
