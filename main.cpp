@@ -574,95 +574,148 @@ private:
 };
 
 int main() {
-    // Create animals
+    std::cout << "===== Testing All Getters and Setters =====" << std::endl;
+
+    // Animal class testing
+    std::cout << "\n----- Animal Class -----" << std::endl;
     Animal lion("Leo", "Lion", 5, 190.5, 120.0, true, 5000);
-    Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
-    Animal elephant("Dumbo", "Elephant", 10, 4500.0, 300.0, true, 8000);
-    Animal giraffe("Spots", "Giraffe", 7, 1200.0, 500.0, false, 6000);
     
-    // Display animal information
-    std::cout << "Animal Example:" << std::endl;
-    std::cout << "Name: " << lion.getName() << ", Species: " << lion.getSpecies() 
-              << ", Age: " << lion.getAge() << ", Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    // Display initial values using getters
+    std::cout << "Initial Animal Values:" << std::endl;
+    std::cout << "Name: " << lion.getName() << std::endl;
+    std::cout << "Species: " << lion.getSpecies() << std::endl;
+    std::cout << "Age: " << lion.getAge() << std::endl;
+    std::cout << "Weight: " << lion.getWeight() << " kg" << std::endl;
+    std::cout << "Height: " << lion.getHeight() << " cm" << std::endl;
+    std::cout << "Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    std::cout << "Price: $" << lion.getPrice() << std::endl;
     
-    // Update animal information
-    giraffe.setIsHealthy(true);
-    std::cout << "Updated " << giraffe.getName() << "'s health status to: " 
-              << (giraffe.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    // Use all setters
+    lion.setName("King");
+    lion.setSpecies("African Lion");
+    lion.setAge(6);
+    lion.setWeight(200.0);
+    lion.setHeight(125.0);
+    lion.setIsHealthy(false);
+    lion.setPrice(5500);
     
-    // Create habitats
-    std::vector<Animal> savanna_animals = {lion, giraffe};
-    std::vector<Animal> jungle_animals = {tiger};
-    std::vector<Animal> forest_animals = {elephant};
+    // Display updated values
+    std::cout << "\nUpdated Animal Values:" << std::endl;
+    std::cout << "Name: " << lion.getName() << std::endl;
+    std::cout << "Species: " << lion.getSpecies() << std::endl;
+    std::cout << "Age: " << lion.getAge() << std::endl;
+    std::cout << "Weight: " << lion.getWeight() << " kg" << std::endl;
+    std::cout << "Height: " << lion.getHeight() << " cm" << std::endl;
+    std::cout << "Health Status: " << (lion.getIsHealthy() ? "Healthy" : "Sick") << std::endl;
+    std::cout << "Price: $" << lion.getPrice() << std::endl;
     
+    // Habitat class testing
+    std::cout << "\n----- Habitat Class -----" << std::endl;
+    std::vector<Animal> savanna_animals = {lion};
     Habitat savanna("Savanna", savanna_animals, 5, true, 10000.0f);
-    Habitat jungle("Jungle", jungle_animals, 3, false, 8000.0f);
-    Habitat forest("Forest", forest_animals, 4, true, 7500.0f);
     
-    // Display habitat information
-    std::cout << "\nHabitat Example:" << std::endl;
-    std::cout << "Type: " << savanna.getType() << ", Capacity: " << savanna.getCapacity() 
-              << ", Clean: " << (savanna.getIsClean() ? "Yes" : "No") 
-              << ", Animals: " << savanna.getAnimals().size() << std::endl;
+    // Display initial values using getters
+    std::cout << "Initial Habitat Values:" << std::endl;
+    std::cout << "Type: " << savanna.getType() << std::endl;
+    std::cout << "Number of Animals: " << savanna.getAnimals().size() << std::endl;
+    std::cout << "Capacity: " << savanna.getCapacity() << std::endl;
+    std::cout << "Cleanliness: " << (savanna.getIsClean() ? "Clean" : "Dirty") << std::endl;
+    std::cout << "Price: $" << savanna.getPrice() << std::endl;
     
-    // Clean the jungle habitat
-    jungle.setIsClean(true);
-    std::cout << "Cleaned the " << jungle.getType() << " habitat. Status: " 
-              << (jungle.getIsClean() ? "Clean" : "Dirty") << std::endl;
+    // Use all setters
+    Animal tiger("Raja", "Tiger", 4, 170.0, 110.0, true, 4500);
+    std::vector<Animal> new_animals = {lion, tiger};
+    savanna.setType("African Savanna");
+    savanna.setAnimals(new_animals);
+    savanna.setCapacity(8);
+    savanna.setIsClean(false);
+    savanna.setPrice(12000.0f);
     
-    // Create zoo with habitats
-    std::vector<Habitat> zoo_habitats = {savanna, jungle, forest};
+    // Display updated values
+    std::cout << "\nUpdated Habitat Values:" << std::endl;
+    std::cout << "Type: " << savanna.getType() << std::endl;
+    std::cout << "Number of Animals: " << savanna.getAnimals().size() << std::endl;
+    std::cout << "Capacity: " << savanna.getCapacity() << std::endl;
+    std::cout << "Cleanliness: " << (savanna.getIsClean() ? "Clean" : "Dirty") << std::endl;
+    std::cout << "Price: $" << savanna.getPrice() << std::endl;
+    
+    // Zoo class testing
+    std::cout << "\n----- Zoo Class -----" << std::endl;
+    std::vector<Habitat> zoo_habitats = {savanna};
     Zoo wildPark("Wild Park", zoo_habitats, 0, false, 100000.0f);
     
-    // Display zoo information
-    std::cout << "\nZoo Example:" << std::endl;
-    std::cout << "Name: " << wildPark.getName() 
-              << ", Number of Habitats: " << wildPark.getHabitats().size() 
-              << ", Budget: $" << wildPark.getBuget() << std::endl;
+    // Display initial values using getters
+    std::cout << "Initial Zoo Values:" << std::endl;
+    std::cout << "Name: " << wildPark.getName() << std::endl;
+    std::cout << "Number of Habitats: " << wildPark.getHabitats().size() << std::endl;
+    std::cout << "Visitor Count: " << wildPark.getVisitorCount() << std::endl;
+    std::cout << "Status: " << (wildPark.getIsOpen() ? "Open" : "Closed") << std::endl;
+    std::cout << "Budget: $" << wildPark.getBuget() << std::endl;
     
-    // Open the zoo
+    // Use all setters
+    Habitat jungle("Jungle", std::vector<Animal>{tiger}, 3, false, 8000.0f);
+    std::vector<Habitat> new_habitats = {savanna, jungle};
+    wildPark.setName("Amazing Wild Park");
+    wildPark.setHabitats(new_habitats);
+    wildPark.setVisitorCount(50);
     wildPark.setIsOpen(true);
-    std::cout << "Zoo is now " << (wildPark.getIsOpen() ? "open" : "closed") << " for visitors" << std::endl;
+    wildPark.setBuget(120000.0f);
     
-    // Create staff members
+    // Display updated values
+    std::cout << "\nUpdated Zoo Values:" << std::endl;
+    std::cout << "Name: " << wildPark.getName() << std::endl;
+    std::cout << "Number of Habitats: " << wildPark.getHabitats().size() << std::endl;
+    std::cout << "Visitor Count: " << wildPark.getVisitorCount() << std::endl;
+    std::cout << "Status: " << (wildPark.getIsOpen() ? "Open" : "Closed") << std::endl;
+    std::cout << "Budget: $" << wildPark.getBuget() << std::endl;
+    
+    // Staff class testing
+    std::cout << "\n----- Staff Class -----" << std::endl;
     Staff zookeeper("John Smith", "Zookeeper", 35, 3500.0f);
-    Staff veterinarian("Sarah Johnson", "Veterinarian", 40, 5000.0f);
-    Staff manager("Michael Brown", "Manager", 45, 6500.0f);
     
-    // Display staff information
-    std::cout << "\nStaff Example:" << std::endl;
-    std::cout << "Name: " << zookeeper.getName() << ", Position: " << zookeeper.getPosition() 
-              << ", Age: " << zookeeper.getAge() << ", Salary: $" << zookeeper.getSalary() << std::endl;
+    // Display initial values using getters
+    std::cout << "Initial Staff Values:" << std::endl;
+    std::cout << "Name: " << zookeeper.getName() << std::endl;
+    std::cout << "Position: " << zookeeper.getPosition() << std::endl;
+    std::cout << "Age: " << zookeeper.getAge() << std::endl;
+    std::cout << "Salary: $" << zookeeper.getSalary() << std::endl;
     
-    // Give a raise to the veterinarian
-    float newSalary = veterinarian.getSalary() * 1.1f; // 10% raise
-    veterinarian.setSalary(newSalary);
-    std::cout << veterinarian.getName() << " received a raise. New salary: $" << veterinarian.getSalary() << std::endl;
+    // Use all setters
+    zookeeper.setName("John A. Smith");
+    zookeeper.setPosition("Senior Zookeeper");
+    zookeeper.setAge(36);
+    zookeeper.setSalary(3800.0f);
     
-    // Create visitors
+    // Display updated values
+    std::cout << "\nUpdated Staff Values:" << std::endl;
+    std::cout << "Name: " << zookeeper.getName() << std::endl;
+    std::cout << "Position: " << zookeeper.getPosition() << std::endl;
+    std::cout << "Age: " << zookeeper.getAge() << std::endl;
+    std::cout << "Salary: $" << zookeeper.getSalary() << std::endl;
+    
+    // Visitor class testing
+    std::cout << "\n----- Visitor Class -----" << std::endl;
     Visitor adult("Alice Williams", 30, 100.0f);
-    Visitor child("Bobby Williams", 8, 20.0f);
-    Visitor senior("George Davis", 70, 50.0f);
     
-    // Display visitor information
-    std::cout << "\nVisitor Example:" << std::endl;
-    std::cout << "Name: " << adult.getName() << ", Age: " << adult.getAge() 
-              << ", Available Money: $" << adult.getMoney() << std::endl;
+    // Display initial values using getters
+    std::cout << "Initial Visitor Values:" << std::endl;
+    std::cout << "Name: " << adult.getName() << std::endl;
+    std::cout << "Age: " << adult.getAge() << std::endl;
+    std::cout << "Money: $" << adult.getMoney() << std::endl;
     
-    // Visitors pay entrance fee
-    float entranceFee = 15.0f;
-    adult.setMoney(adult.getMoney() - entranceFee);
-    child.setMoney(child.getMoney() - (entranceFee / 2)); // Half price for children
-    senior.setMoney(senior.getMoney() - (entranceFee * 0.7f)); // 30% discount for seniors
+    // Use all setters
+    adult.setName("Alice J. Williams");
+    adult.setAge(31);
+    adult.setMoney(85.0f);
     
-    // Update zoo visitor count and budget
-    wildPark.setVisitorCount(wildPark.getVisitorCount() + 3);
-    wildPark.setBuget(wildPark.getBuget() + entranceFee + (entranceFee / 2) + (entranceFee * 0.7f));
+    // Display updated values
+    std::cout << "\nUpdated Visitor Values:" << std::endl;
+    std::cout << "Name: " << adult.getName() << std::endl;
+    std::cout << "Age: " << adult.getAge() << std::endl;
+    std::cout << "Money: $" << adult.getMoney() << std::endl;
     
-    std::cout << "After visitors entered:" << std::endl;
-    std::cout << "Zoo visitor count: " << wildPark.getVisitorCount() << std::endl;
-    std::cout << "Zoo budget: $" << wildPark.getBuget() << std::endl;
-    std::cout << adult.getName() << " has $" << adult.getMoney() << " left" << std::endl;
-
+    std::cout << "\n===== Testing Complete =====" << std::endl;
+    
     return 0;
 }
+
