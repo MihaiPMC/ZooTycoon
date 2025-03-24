@@ -7,7 +7,6 @@
 
 #include <Helper.h>
 
-#include "ResourceManager.hpp"
 
 
 
