@@ -9,6 +9,7 @@
 
 #include "ResourceManager.hpp"
 
+
 //////////////////////////////////////////////////////////////////////
 /// This class is used to test that the memory leak checks work as expected even when using a GUI
 class SomeClass {
@@ -21,116 +22,574 @@ SomeClass *getC() {
 }
 //////////////////////////////////////////////////////////////////////
 
-void PersonalizeazaAvion(sf::Sprite& avion)
+class Animal
 {
-    avion.setScale({0.3f, 0.3f});
-    avion.setPosition({400, 350});
+    private:
+    std::string name;
+    std::string species;
+    int age;
+    float weight;
+    float height;
+    bool isHealthy;
+    int price;
+public:
+    Animal(const std::string &name, const std::string &species, int age, float weight, float height, bool is_healthy, int price = 0)
+        : name(name),
+          species(species),
+          age(age),
+          weight(weight),
+          height(height),
+          isHealthy(is_healthy),
+          price(price)
+    {
+    }
 
-    sf::FloatRect bounds = avion.getGlobalBounds();
-    avion.setOrigin({
-        bounds.position.x + bounds.size.x / 2,
-        bounds.position.y + bounds.size.y / 2
-    });
-}
+    ~Animal() = default;
+
+    Animal(const Animal &other)
+        : name(other.name),
+          species(other.species),
+          age(other.age),
+          weight(other.weight),
+          height(other.height),
+          isHealthy(other.isHealthy),
+          price(other.price)
+    {
+    }
+
+    Animal(Animal &&other) noexcept
+        : name(std::move(other.name)),
+          species(std::move(other.species)),
+          age(other.age),
+          weight(other.weight),
+          height(other.height),
+          isHealthy(other.isHealthy),
+          price(other.price)
+    {
+    }
+
+    Animal & operator=(const Animal &other)
+    {
+        if (this == &other)
+            return *this;
+        name = other.name;
+        species = other.species;
+        age = other.age;
+        weight = other.weight;
+        height = other.height;
+        isHealthy = other.isHealthy;
+        price = other.price;
+        return *this;
+    }
+
+    Animal & operator=(Animal &&other) noexcept
+    {
+        if (this == &other)
+            return *this;
+        name = std::move(other.name);
+        species = std::move(other.species);
+        age = other.age;
+        weight = other.weight;
+        height = other.height;
+        isHealthy = other.isHealthy;
+        price = other.price;
+        return *this;
+    }
+
+    [[nodiscard]] std::string name1() const
+    {
+        return name;
+    }
+
+    void set_name(const std::string &name)
+    {
+        this->name = name;
+    }
+
+    [[nodiscard]] std::string species1() const
+    {
+        return species;
+    }
+
+    void set_species(const std::string &species)
+    {
+        this->species = species;
+    }
+
+    [[nodiscard]] int age1() const
+    {
+        return age;
+    }
+
+    void set_age(int age)
+    {
+        this->age = age;
+    }
+
+    [[nodiscard]] float weight1() const
+    {
+        return weight;
+    }
+
+    void set_weight(float weight)
+    {
+        this->weight = weight;
+    }
+
+    [[nodiscard]] float height1() const
+    {
+        return height;
+    }
+
+    void set_height(float height)
+    {
+        this->height = height;
+    }
+
+    [[nodiscard]] bool is_healthy() const
+    {
+        return isHealthy;
+    }
+
+    void set_is_healthy(bool is_healthy)
+    {
+        isHealthy = is_healthy;
+    }
+
+    [[nodiscard]] int get_price() const
+    {
+        return price;
+    }
+
+    void set_price(int new_price)
+    {
+        price = new_price;
+    }
+};
+
+class Habitat
+{
+    private:
+    std::string type;
+    std::vector<Animal> animals;
+    int capacity;
+    bool isClean;
+    float price;
+public:
+    Habitat(const std::string &type, const std::vector<Animal> &animals, int capacity, bool is_clean, float price = 0.0f)
+        : type(type),
+          animals(animals),
+          capacity(capacity),
+          isClean(is_clean),
+          price(price)
+    {
+    }
+
+    ~Habitat() = default;
+
+    Habitat(const Habitat &other)
+        : type(other.type),
+          animals(other.animals),
+          capacity(other.capacity),
+          isClean(other.isClean),
+          price(other.price)
+    {
+    }
+
+    Habitat(Habitat &&other) noexcept
+        : type(std::move(other.type)),
+          animals(std::move(other.animals)),
+          capacity(other.capacity),
+          isClean(other.isClean),
+          price(other.price)
+    {
+    }
+
+    Habitat & operator=(const Habitat &other)
+    {
+        if (this == &other)
+            return *this;
+        type = other.type;
+        animals = other.animals;
+        capacity = other.capacity;
+        isClean = other.isClean;
+        price = other.price;
+        return *this;
+    }
+
+    Habitat & operator=(Habitat &&other) noexcept
+    {
+        if (this == &other)
+            return *this;
+        type = std::move(other.type);
+        animals = std::move(other.animals);
+        capacity = other.capacity;
+        isClean = other.isClean;
+        price = other.price;
+        return *this;
+    }
+
+    [[nodiscard]] std::string type1() const
+    {
+        return type;
+    }
+
+    void set_type(const std::string &type)
+    {
+        this->type = type;
+    }
+
+    [[nodiscard]] std::vector<Animal> animals1() const
+    {
+        return animals;
+    }
+
+    void set_animals(const std::vector<Animal> &animals)
+    {
+        this->animals = animals;
+    }
+
+    [[nodiscard]] int capacity1() const
+    {
+        return capacity;
+    }
+
+    void set_capacity(int capacity)
+    {
+        this->capacity = capacity;
+    }
+
+    [[nodiscard]] bool is_clean() const
+    {
+        return isClean;
+    }
+
+    void set_is_clean(bool is_clean)
+    {
+        isClean = is_clean;
+    }
+
+    [[nodiscard]] float get_price() const
+    {
+        return price;
+    }
+
+    void set_price(float new_price)
+    {
+        price = new_price;
+    }
+};
+
+class Zoo
+{
+    private:
+    std::string name;
+    std::vector<Habitat> habitats;
+    int visitorCount;
+    bool isOpen;
+    float buget;
+
+public:
+    Zoo(const std::string &name, const std::vector<Habitat> &habitats, int visitor_count, bool is_open, float buget)
+        : name(name),
+          habitats(habitats),
+          visitorCount(visitor_count),
+          isOpen(is_open),
+          buget(buget)
+    {
+    }
+
+    ~Zoo() = default;
+
+    Zoo(const Zoo &other)
+        : name(other.name),
+          habitats(other.habitats),
+          visitorCount(other.visitorCount),
+          isOpen(other.isOpen),
+          buget(other.buget)
+    {
+    }
+
+    Zoo(Zoo &&other) noexcept
+        : name(std::move(other.name)),
+          habitats(std::move(other.habitats)),
+          visitorCount(other.visitorCount),
+          isOpen(other.isOpen),
+          buget(other.buget)
+    {
+    }
+
+    Zoo & operator=(const Zoo &other)
+    {
+        if (this == &other)
+            return *this;
+        name = other.name;
+        habitats = other.habitats;
+        visitorCount = other.visitorCount;
+        isOpen = other.isOpen;
+        buget = other.buget;
+        return *this;
+    }
+
+    Zoo & operator=(Zoo &&other) noexcept
+    {
+        if (this == &other)
+            return *this;
+        name = std::move(other.name);
+        habitats = std::move(other.habitats);
+        visitorCount = other.visitorCount;
+        isOpen = other.isOpen;
+        buget = other.buget;
+        return *this;
+    }
+
+    [[nodiscard]] std::string name1() const
+    {
+        return name;
+    }
+
+    void set_name(const std::string &name)
+    {
+        this->name = name;
+    }
+
+    [[nodiscard]] std::vector<Habitat> habitats1() const
+    {
+        return habitats;
+    }
+
+    void set_habitats(const std::vector<Habitat> &habitats)
+    {
+        this->habitats = habitats;
+    }
+
+    [[nodiscard]] int visitor_count() const
+    {
+        return visitorCount;
+    }
+
+    void set_visitor_count(int visitor_count)
+    {
+        visitorCount = visitor_count;
+    }
+
+    [[nodiscard]] bool is_open() const
+    {
+        return isOpen;
+    }
+
+    void set_is_open(bool is_open)
+    {
+        isOpen = is_open;
+    }
+
+    [[nodiscard]] float buget1() const
+    {
+        return buget;
+    }
+
+    void set_buget(float buget)
+    {
+        this->buget = buget;
+    }
+};
+
+class Staff
+{
+    private:
+    std::string name;
+    std::string position;
+    int age;
+    float salary;
+
+public:
+    Staff(const std::string &name, const std::string &position, int age, float salary)
+        : name(name),
+          position(position),
+          age(age),
+          salary(salary)
+    {
+    }
+
+    ~Staff() = default;
+
+    Staff(const Staff &other)
+        : name(other.name),
+          position(other.position),
+          age(other.age),
+          salary(other.salary)
+    {
+    }
+
+    Staff(Staff &&other) noexcept
+        : name(std::move(other.name)),
+          position(std::move(other.position)),
+          age(other.age),
+          salary(other.salary)
+    {
+    }
+
+    Staff & operator=(const Staff &other)
+    {
+        if (this == &other)
+            return *this;
+        name = other.name;
+        position = other.position;
+        age = other.age;
+        salary = other.salary;
+        return *this;
+    }
+
+    Staff & operator=(Staff &&other) noexcept
+    {
+        if (this == &other)
+            return *this;
+        name = std::move(other.name);
+        position = std::move(other.position);
+        age = other.age;
+        salary = other.salary;
+        return *this;
+    }
+
+    [[nodiscard]] std::string name1() const
+    {
+        return name;
+    }
+
+    void set_name(const std::string &name)
+    {
+        this->name = name;
+    }
+
+    [[nodiscard]] std::string position1() const
+    {
+        return position;
+    }
+
+    void set_position(const std::string &position)
+    {
+        this->position = position;
+    }
+
+    [[nodiscard]] int age1() const
+    {
+        return age;
+    }
+
+    void set_age(int age)
+    {
+        this->age = age;
+    }
+
+    [[nodiscard]] float salary1() const
+    {
+        return salary;
+    }
+
+    void set_salary(float salary)
+    {
+        this->salary = salary;
+    }
+};
+
+class Visitor
+{
+private:
+    std::string name;
+    int age;
+    float money;
+    bool isHappy;
+
+    public:
+    Visitor(const std::string &name, int age, float money, bool is_happy)
+        : name(name),
+          age(age),
+          money(money),
+          isHappy(is_happy)
+    {
+    }
+    ~Visitor() = default;
+
+    Visitor(const Visitor &other)
+        : name(other.name),
+          age(other.age),
+          money(other.money),
+          isHappy(other.isHappy)
+    {
+    }
+
+    Visitor(Visitor &&other) noexcept
+        : name(std::move(other.name)),
+          age(other.age),
+          money(other.money),
+          isHappy(other.isHappy)
+    {
+    }
+
+    Visitor & operator=(const Visitor &other)
+    {
+        if (this == &other)
+            return *this;
+        name = other.name;
+        age = other.age;
+        money = other.money;
+        isHappy = other.isHappy;
+        return *this;
+    }
+
+    Visitor & operator=(Visitor &&other) noexcept
+    {
+        if (this == &other)
+            return *this;
+        name = std::move(other.name);
+        age = other.age;
+        money = other.money;
+        isHappy = other.isHappy;
+        return *this;
+    }
+
+    [[nodiscard]] std::string name1() const
+    {
+        return name;
+    }
+
+    void set_name(const std::string &name)
+    {
+        this->name = name;
+    }
+
+    [[nodiscard]] int age1() const
+    {
+        return age;
+    }
+
+    void set_age(int age)
+    {
+        this->age = age;
+    }
+
+    [[nodiscard]] float money1() const
+    {
+        return money;
+    }
+
+    void set_money(float money)
+    {
+        this->money = money;
+    }
+
+    [[nodiscard]] bool is_happy() const
+    {
+        return isHappy;
+    }
+
+    void set_is_happy(bool is_happy)
+    {
+        isHappy = is_happy;
+    }
+};
 
 int main() {
-    ///////////////////////////////////////////////////////////////////////////
-    ///                Exemplu de utilizare cod generat                     ///
-    ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////
 
-    SomeClass *c = getC();
-    std::cout << c << "\n";
-    delete c;  // comentarea acestui rând ar trebui să ducă la semnalarea unui mem leak
-
-    sf::RenderWindow window;
-    ///////////////////////////////////////////////////////////////////////////
-    /// NOTE: sync with env variable APP_WINDOW from .github/workflows/cmake.yml:31
-    window.create(sf::VideoMode({800, 700}), "My Window", sf::Style::Default);
-    ///////////////////////////////////////////////////////////////////////////
-    std::cout << "Fereastra a fost creată\n";
-    ///////////////////////////////////////////////////////////////////////////
-    /// NOTE: mandatory use one of vsync or FPS limit (not both)            ///
-    /// This is needed so we do not burn the GPU                            ///
-    // window.setVerticalSyncEnabled(true);                                 ///
-    window.setFramerateLimit(60);                                           ///
-    ///////////////////////////////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////////////
-    /// Pentru a putea folosi resurse locale în cadrul programului trebuie modificat `CMakeLists.txt`.
-    /// Deschide `CMakeLists.txt` și dă scroll la final, unde sunt apelurile la funcția `copy_files()`.
-    ///
-    /// După pasul anterior, putem folosi resursele locale folosind sintaxa `ResourceManager::Instance().get*`, unde
-    /// * poate fi Texture, Font, Sound sau orice alt tip de resursă de care avem nevoie.
-    ////////////////////////////////////////////////////////
-
-    // Decomentează liniile marcate cu `@` de mai jos pentru a vedea ce se întâmplă atunci când încerci să primești o textură inexistentă.
-
-    sf::Font font = ResourceManager::Instance().getFont("FiraSans-Regular.ttf");
-
-    sf::Texture avion_texture;
-    sf::Text tip_avion(font);
-    // sf::Texture dummyTexture; // @
-
-    try {
-        avion_texture = ResourceManager::Instance().getTexture("airplane.png");
-        // dummyTexture = ResourceManager::Instance().getTexture("fizzbuzz.png"); // @
-    } catch(std::exception& exp) {
-        std::cout << exp.what() << std::endl;
-        return 0;
-    }
-
-    sf::Sprite avion(avion_texture);
-
-    PersonalizeazaAvion(avion); // Este o funcție care modifică dimensiunea avionului și îi pune originea în centru.
-
-    tip_avion.setString("An airplane");
-
-    while(window.isOpen()) {
-        bool shouldExit = false;
-
-        while(const std::optional event = window.pollEvent()) {
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-                std::cout << "Fereastra a fost închisă\n";
-            }
-            else if (event->is<sf::Event::Resized>()) {
-                std::cout << "New width: " << window.getSize().x << '\n'
-                          << "New height: " << window.getSize().y << '\n';
-            }
-            else if (event->is<sf::Event::KeyPressed>()) {
-                const auto* keyPressed = event->getIf<sf::Event::KeyPressed>();
-                std::cout << "Received key " << (keyPressed->scancode == sf::Keyboard::Scancode::X ? "X" : "(other)") << "\n";
-                if(keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
-                    shouldExit = true;
-                }
-            }
-        }
-
-        if(shouldExit) {
-            window.close();
-            std::cout << "Fereastra a fost închisă (shouldExit == true)\n";
-            break;
-        }
-
-        using namespace std::chrono_literals;
-        std::this_thread::sleep_for(150ms);
-
-
-        float new_angle = avion.getRotation().asDegrees() + 1;
-        sf::Angle angle = sf::degrees(new_angle);
-        avion.setRotation(angle);
-
-        window.clear();
-
-        window.draw(avion); // Afișăm avionul încărcat pe ecran
-        window.draw(tip_avion); // Afișăm tipul avionului
-
-        window.display();
-    }
-
-    std::cout << "Programul a terminat execuția\n";
     return 0;
 }
