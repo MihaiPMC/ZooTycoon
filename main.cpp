@@ -96,7 +96,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string getName() const
+    [[nodiscard]] const std::string& getName() const
     {
         return name;
     }
@@ -106,7 +106,7 @@ public:
         this->name = name;
     }
 
-    [[nodiscard]] std::string getSpecies() const
+    [[nodiscard]] const std::string& getSpecies() const
     {
         return species;
     }
@@ -229,7 +229,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string getType() const
+    [[nodiscard]] const std::string& getType() const
     {
         return type;
     }
@@ -239,7 +239,7 @@ public:
         this->type = type;
     }
 
-    [[nodiscard]] std::vector<Animal> getAnimals() const
+    [[nodiscard]] const std::vector<Animal>& getAnimals() const
     {
         return animals;
     }
@@ -343,7 +343,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string getName() const
+    [[nodiscard]] const std::string& getName() const
     {
         return name;
     }
@@ -353,7 +353,7 @@ public:
         this->name = name;
     }
 
-    [[nodiscard]] std::vector<Habitat> getHabitats() const
+    [[nodiscard]] const std::vector<Habitat>& getHabitats() const
     {
         return habitats;
     }
@@ -451,7 +451,7 @@ public:
         return *this;
     }
 
-    [[nodiscard]] std::string getName() const
+    [[nodiscard]] const std::string& getName() const
     {
         return name;
     }
@@ -461,7 +461,7 @@ public:
         this->name = name;
     }
 
-    [[nodiscard]] std::string getPosition() const
+    [[nodiscard]] const std::string& getPosition() const
     {
         return position;
     }
@@ -542,7 +542,7 @@ private:
         return *this;
     }
 
-    [[nodiscard]] std::string getName() const
+    [[nodiscard]] const std::string& getName() const
     {
         return name;
     }
@@ -577,3 +577,4 @@ int main() {
 
     return 0;
 }
+
