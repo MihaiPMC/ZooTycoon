@@ -1029,13 +1029,11 @@ int main()
         std::cout << "Day " << (i + 1) << " of simulation." << std::endl;
         myZoo.updateHunger(1.0f);
 
-        // Update cleanliness for all habitats
         for (auto& habitat : const_cast<std::vector<Habitat>&>(myZoo.getHabitats()))
         {
             habitat.updateCleanliness(1.0f);
         }
 
-        // Daily habitat and animal management
         std::cout << "----------------------------------------" << std::endl;
         std::cout << "Daily Management Options:" << std::endl;
         std::cout << "1. Feed animals" << std::endl;
@@ -1049,12 +1047,10 @@ int main()
 
         switch (dailyChoice) {
             case 1: {
-                // Feed animals
                 myZoo.feedAnimals();
                 break;
             }
             case 2: {
-                // Add a new habitat
                 std::cout << "Habitat price is $10,000." << std::endl;
                 if (myZoo.getBuget() < 10000) {
                     std::cout << "Not enough budget to add a habitat!" << std::endl;
@@ -1087,7 +1083,6 @@ int main()
                 std::cout << "Habitat added: " << habitatTypeName << std::endl;
                 std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
 
-                // Add animals to new habitat
                 std::cout << "Would you like to add animals to this new habitat? (1 for Yes, 0 for No): ";
                 int addAnimals;
                 std::cin >> addAnimals;
@@ -1133,7 +1128,6 @@ int main()
                             random(0.7f, 1.0f)
                         );
 
-                        // Access last habitat (which is the one just added)
                         auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
                         habitats.back().addAnimals(newAnimal);
 
@@ -1146,7 +1140,6 @@ int main()
                 break;
             }
             case 3: {
-                // Add animals to existing habitat
                 auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
                 if (habitats.empty()) {
                     std::cout << "No habitats available!" << std::endl;
@@ -1226,7 +1219,6 @@ int main()
                 break;
         }
 
-        // Calculate daily visitors and revenue
         int habitatCount = myZoo.getHabitats().size();
         int totalAnimals = 0;
         for (const auto &habitat : myZoo.getHabitats()) {
