@@ -274,16 +274,16 @@ private:
     Type type;
     std::vector<Animal> animals;
     int capacity;
-    bool isClean;
+    float cleanlinessLevel;
     float price;
 
 public:
-    Habitat(Type type, const std::vector<Animal> &animals, int capacity, bool is_clean,
+    Habitat(Type type, const std::vector<Animal> &animals, int capacity, float cleanlinessLevel,
             float price = 0.0f)
         : type(type),
           animals(animals),
           capacity(capacity),
-          isClean(is_clean),
+          cleanlinessLevel(cleanlinessLevel),
           price(price)
     {
     }
@@ -294,7 +294,7 @@ public:
         : type(other.type),
           animals(other.animals),
           capacity(other.capacity),
-          isClean(other.isClean),
+          cleanlinessLevel(other.cleanlinessLevel),
           price(other.price)
     {
     }
@@ -303,7 +303,7 @@ public:
         : type(std::move(other.type)),
           animals(std::move(other.animals)),
           capacity(other.capacity),
-          isClean(other.isClean),
+          cleanlinessLevel(other.cleanlinessLevel),
           price(other.price)
     {
     }
@@ -315,7 +315,7 @@ public:
         type = other.type;
         animals = other.animals;
         capacity = other.capacity;
-        isClean = other.isClean;
+        cleanlinessLevel = other.cleanlinessLevel;
         price = other.price;
         return *this;
     }
@@ -327,7 +327,7 @@ public:
         type = std::move(other.type);
         animals = std::move(other.animals);
         capacity = other.capacity;
-        isClean = other.isClean;
+        cleanlinessLevel = other.cleanlinessLevel;
         price = other.price;
         return *this;
     }
@@ -370,14 +370,14 @@ public:
         this->capacity = newCapacity;
     }
 
-    [[nodiscard]] bool getIsClean() const
+    [[nodiscard]] float getCleanlinessLevel() const
     {
-        return isClean;
+        return cleanlinessLevel;
     }
 
-    void setIsClean(bool is_clean)
+    void setCleanlinessLevel(float level)
     {
-        isClean = is_clean;
+            cleanlinessLevel = level;
     }
 
     [[nodiscard]] float getPrice() const
@@ -389,12 +389,31 @@ public:
     {
         price = new_price;
     }
+
+    void cleanHabitat()
+    {
+        cleanlinessLevel = 1.0f;
+    }
+
+    void updateCleanliness(float deltaTime)
+    {
+        int totalAnimals = animals.size();
+        if (totalAnimals > 0)
+        {
+            const float decayRate = 0.01f;
+            cleanlinessLevel -= decayRate * totalAnimals * deltaTime;
+            if (cleanlinessLevel < 0.0f)
+            {
+                cleanlinessLevel = 0.0f;
+            }
+        }
+    }
     
     friend std::ostream &operator<<(std::ostream &os, const Habitat &habitat)
     {
         os << "Habitat: " << typeString(habitat.type) << "\n"
            << "  Capacity: " << habitat.capacity << "\n"
-           << "  Status: " << (habitat.isClean ? "Clean" : "Dirty") << "\n"
+           << "  Cleanliness: " << (habitat.cleanlinessLevel * 100) << "%" << "\n"
            << "  Price: $" << habitat.price << "\n"
            << "  Animals: " << habitat.animals.size();
         return os;
@@ -524,7 +543,7 @@ public:
         this->buget = newBuget;
     }
 
-    bool feedAnimals(float foodAmountPerAnimal = 0.3f, float costPerAnimal = 10.0f)
+    void  feedAnimals(float foodAmountPerAnimal = 0.3f, float costPerAnimal = 10.0f)
     {
         int totalAnimals = 0;
         float totalCost = 0.0f;
@@ -539,7 +558,7 @@ public:
         if (buget < totalCost)
         {
             std::cout << "Not enough budget to feed all animals!" << std::endl;
-            return false;
+            return;
         }
 
         for (auto& habitat : habitats)
@@ -554,8 +573,6 @@ public:
 
         std::cout << "Fed " << totalAnimals << " animals for a total cost of $" << totalCost << std::endl;
         std::cout << "Remaining budget: $" << buget << std::endl;
-
-        return true;
     }
     
 

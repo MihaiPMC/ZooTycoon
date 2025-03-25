@@ -1,2 +1,74 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Source files
+*.c text
+*.cc text
+*.cxx text
+*.cpp text
+*.c++ text
+*.hpp text
+*.h text
+*.h++ text
+*.hh text
+*.inl text
+
+# Compiled Object files
+*.slo binary
+*.lo binary
+*.o binary
+*.obj binary
+
+# Executables
+*.exe binary
+*.out binary
+*.app binary
+*.dll binary
+
+# Compiled Static libraries
+*.lai binary
+*.la binary
+*.a binary
+*.lib binary
+
+# Compiled Dynamic libraries
+*.so binary
+*.dylib binary
+
+# SFML specific
+*.ttf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.wav binary
+*.ogg binary
+
+# Build and IDE files
+*.vcxproj text
+*.sln text
+*.cmake text
+CMakeLists.txt text
+*.pro text
+
+# GitHub specific
+*.md text
+*.txt text
+*.json text
+*.xml text
+
+# Special directories
 generated/** linguist-generated
 ext/** linguist-vendored
+third_party/** linguist-vendored
+
+# Merge strategies
+*.cpp merge=cpp
+*.hpp merge=cpp
+*.c merge=cpp
+*.h merge=cpp
+
+# Diff handling
+*.cpp diff=cpp
+*.hpp diff=cpp
+*.c diff=cpp
+*.h diff=cpp
