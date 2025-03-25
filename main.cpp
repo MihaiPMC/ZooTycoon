@@ -1269,6 +1269,7 @@ int main()
     unusedHabitat.setCapacity(10);
     unusedHabitat.setCleanlinessLevel(0.75f);
     unusedHabitat.setPrice(7500.0f);
+    unusedHabitat.cleanHabitat();
     std::cout << "Unused Habitat Type: " << unusedHabitat.getType() << std::endl;
     std::cout << "Unused Habitat Capacity: " << unusedHabitat.getCapacity() << std::endl;
     std::cout << "Unused Habitat Cleanliness: " << unusedHabitat.getCleanlinessLevel() << std::endl;
@@ -1303,6 +1304,9 @@ int main()
     std::cout << "Unused Visitor Age: " << unusedVisitor.getAge() << std::endl;
     std::cout << "Unused Visitor Money: " << unusedVisitor.getMoney() << std::endl;
     std::cout << "Unused Visitor Type: " << unusedVisitor.getType() << std::endl;
+
+    unusedAnimal.updateHealth();
+
 
     return 0;
 }
