@@ -7,7 +7,8 @@
 
 #include <string>
 #include "Animal.hpp"
-
+#include <iostream>
+#include <vector>
 
 class Habitat
 {
