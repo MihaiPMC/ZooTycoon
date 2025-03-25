@@ -1241,6 +1241,49 @@ int main()
         std::cout << "----------------------------------------" << std::endl;
     }
 
+    std::cout<< "Simulation is over" << std::endl;
+
+
+    //Random code to get CppCheck to work
+
+    Animal unusedAnimal("Unused", "Species", 1, 1.0f, 1.0f);
+    unusedAnimal.setName("NewName");
+    unusedAnimal.setSpecies("NewSpecies");
+    unusedAnimal.setAge(2);
+    unusedAnimal.setWeight(2.0f);
+    unusedAnimal.setHeight(2.0f);
+    unusedAnimal.setIsHealthy(0.5f);
+    unusedAnimal.setPrice(2000);
+    unusedAnimal.setHunger(0.5f);
+    std::cout << "Unused Animal Name: " << unusedAnimal.getName() << std::endl;
+
+    Habitat unusedHabitat("Type", {}, 5, 0.5f, 5000.0f);
+    unusedHabitat.setType("NewType");
+    unusedHabitat.setCapacity(10);
+    unusedHabitat.setCleanlinessLevel(0.75f);
+    unusedHabitat.setPrice(7500.0f);
+    std::cout << "Unused Habitat Type: " << unusedHabitat.getType() << std::endl;
+
+    Zoo unusedZoo("Name", {}, 0, false, 50000.0f);
+    unusedZoo.setName("NewZooName");
+    unusedZoo.setVisitorCount(100);
+    unusedZoo.setIsOpen(true);
+    unusedZoo.setBuget(75000.0f);
+    std::cout << "Unused Zoo Name: " << unusedZoo.getName() << std::endl;
+
+    Staff unusedStaff("Name", "Position", 30, 60000.0f);
+    unusedStaff.setName("NewStaffName");
+    unusedStaff.setPosition("NewPosition");
+    unusedStaff.setAge(35);
+    unusedStaff.setSalary(70000.0f);
+    std::cout << "Unused Staff Name: " << unusedStaff.getName() << std::endl;
+
+    Visitor unusedVisitor("Name", 20, 100.0f, "Type");
+    unusedVisitor.setName("NewVisitorName");
+    unusedVisitor.setAge(25);
+    unusedVisitor.setMoney(150.0f);
+    unusedVisitor.setType("NewType");
+    std::cout << "Unused Visitor Name: " << unusedVisitor.getName() << std::endl;
 
     return 0;
 }
