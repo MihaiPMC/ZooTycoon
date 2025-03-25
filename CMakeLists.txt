@@ -59,6 +59,16 @@ endif()
 add_executable(${MAIN_EXECUTABLE_NAME}
     main.cpp
     generated/src/Helper.cpp
+        Animal.cpp
+        Animal.hpp
+        Habitat.cpp
+        Habitat.hpp
+        Zoo.cpp
+        Zoo.hpp
+        Staff.cpp
+        Staff.hpp
+        Visitor.cpp
+        Visitor.hpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

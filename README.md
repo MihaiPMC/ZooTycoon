@@ -1,4 +1,4 @@
-#ZooTycoon
+# ZooTycoon
 
 ## Introducere
 Acesta este un proiect de tip joc, inspirat din jocul Zoo Tycoon, în care jucătorul își poate construi și gestiona propriul zoo. Proiectul este realizat în C++ și utilizează biblioteca SFML pentru grafică și interacțiune.
@@ -52,7 +52,7 @@ O cerință nu se consideră îndeplinită dacă este realizată doar prin cod g
 ## Tema 2
 
 #### Cerințe
-- [ ] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
+- [X] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
 - [ ] moșteniri:
   - minim o clasă de bază și **3 clase derivate** din aceeași ierarhie
   - ierarhia trebuie să fie cu bază proprie, nu derivată dintr-o clasă predefinită
