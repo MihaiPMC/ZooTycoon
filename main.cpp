@@ -512,7 +512,7 @@ public:
             return;
         }
 
-        for (auto& habitat : habitats)
+        for (const auto& habitat : habitats)
         {
             for (auto& animal : const_cast<std::vector<Animal>&>(habitat.getAnimals()))
             {
@@ -528,7 +528,7 @@ public:
 
     void updateHunger(float deltaTime)
     {
-        for (auto &habitat: habitats)
+        for (const auto &habitat: habitats)
         {
             for (auto &animal: const_cast<std::vector<Animal> &>(habitat.getAnimals()))
             {
