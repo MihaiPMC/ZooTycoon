@@ -13,38 +13,15 @@
 
 #include <SFML/Graphics.hpp>
 
+std::map<std::string, std::vector<std::string>> habitatSpecies = {
+    {"Forest", {"Bear", "Wolf", "Fox", "Deer", "Owl"}},
+    {"Desert", {"Camel", "Scorpion", "Rattlesnake", "Coyote", "Lizard"}},
+    {"Ocean", {"Dolphin", "Shark", "Octopus", "Penguin", "Sea Turtle"}},
+    {"Savanna", {"Lion", "Elephant", "Zebra", "Giraffe", "Cheetah"}},
+    {"Mountain", {"Eagle", "Mountain Lion", "Goat", "Yak", "Snow Leopard"}}
+};
 
-template<typename T>
-T random(T min, T max) {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    
-    if constexpr (std::is_integral<T>::value) {
-        std::uniform_int_distribution<T> dist(min, max);
-        return dist(gen);
-    } else {
-        std::uniform_real_distribution<T> dist(min, max);
-        return dist(gen);
-    }
-}
-
-
-
-
-
-
-int main()
-{
-
-    std::map<std::string, std::vector<std::string>> habitatSpecies = {
-        {"Forest", {"Bear", "Wolf", "Fox", "Deer", "Owl"}},
-        {"Desert", {"Camel", "Scorpion", "Rattlesnake", "Coyote", "Lizard"}},
-        {"Ocean", {"Dolphin", "Shark", "Octopus", "Penguin", "Sea Turtle"}},
-        {"Savanna", {"Lion", "Elephant", "Zebra", "Giraffe", "Cheetah"}},
-        {"Mountain", {"Eagle", "Mountain Lion", "Goat", "Yak", "Snow Leopard"}}
-    };
-
-    std::vector<std::string> animalNames = {
+std::vector<std::string> animalNames = {
         "Luna", "Max", "Rocky", "Bella", "Charlie", "Lucy", "Leo", "Daisy", "Simba", "Nala",
         "Jack", "Molly", "Duke", "Sadie", "Teddy", "Ruby", "Oliver", "Rosie", "Milo", "Lola",
         "Buddy", "Coco", "Oscar", "Maggie", "Tank", "Penny", "Zeus", "Stella", "Rex", "Sophie",
@@ -140,10 +117,25 @@ int main()
         "Phantom", "Pharaoh", "Phoenix", "Phyllis", "Picasso", "Pickles", "Pierce", "Pierre", "Piglet", "Pilot"
     };
 
+template<typename T>
+T random(T min, T max) {
+    static std::random_device rd;
+    static std::mt19937 gen(rd());
+    
+    if constexpr (std::is_integral<T>::value) {
+        std::uniform_int_distribution<T> dist(min, max);
+        return dist(gen);
+    } else {
+        std::uniform_real_distribution<T> dist(min, max);
+        return dist(gen);
+    }
+}
+
+Zoo initializeZoo() {
     std::cout << "Welcome to the Zoo Management System!" << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 
-    std::cout <<"What is the name of the zoo?" << std::endl;
+    std::cout << "What is the name of the zoo?" << std::endl;
     std::string zooName;
     std::getline(std::cin, zooName);
     std::cout << "Zoo name: " << zooName << std::endl;
@@ -152,123 +144,234 @@ int main()
     std::cout << "Zoo created!" << std::endl;
     std::cout << "Your budget is $" << myZoo.getBuget() << std::endl;
     std::cout << "----------------------------------------" << std::endl;
+    
+    return myZoo;
+}
 
+std::string selectHabitatType() {
+    int habitatType;
+    do {
+        std::cout << "What habitat do you want to add? 1. Forest 2. Desert 3. Ocean 4. Savanna 5. Mountain" << std::endl;
+        std::cin >> habitatType;
+        
+        if (habitatType < 1 || habitatType > 5) {
+            std::cout << "Invalid habitat type! Please choose again." << std::endl;
+        }
+    } while (habitatType < 1 || habitatType > 5);
+    
+    switch (habitatType) {
+        case 1: return "Forest";
+        case 2: return "Desert";
+        case 3: return "Ocean";
+        case 4: return "Savanna";
+        case 5: return "Mountain";
+        default: return "Forest";
+    }
+}
+
+void addAnimalsToHabitat(Habitat& habitat, Zoo& zoo, int animalCount) {
+    std::string habitatTypeName = habitat.getType();
+    
+    if (animalCount < 0 || animalCount > 5) {
+        std::cout << "Invalid number of animals! Using 0 instead." << std::endl;
+        return;
+    }
+    
+    std::cout << "Animal price is $1000." << std::endl;
+    
+    for (int j = 0; j < animalCount; j++) {
+        if (zoo.getBuget() < 1000) {
+            std::cout << "Not enough budget to add more animals!" << std::endl;
+            break;
+        }
+        
+        std::cout << "Available species for " << habitatTypeName << " habitat:" << std::endl;
+        const std::vector<std::string>& species = habitatSpecies[habitatTypeName];
+        
+        for (size_t k = 0; k < species.size(); k++) {
+            std::cout << (k + 1) << ". " << species[k] << std::endl;
+        }
+
+        int speciesChoice;
+        std::cout << "Choose a species (1-" << species.size() << "): ";
+        std::cin >> speciesChoice;
+
+        if (speciesChoice < 1 || speciesChoice > static_cast<int>(species.size())) {
+            std::cout << "Invalid choice. Defaulting to first species." << std::endl;
+            speciesChoice = 1;
+        }
+
+        std::string randomName = animalNames[random(0, static_cast<int>(animalNames.size()) - 1)];
+
+        Animal newAnimal(
+            randomName,
+            species[speciesChoice - 1],
+            random(1, 10),
+            random(10.0f, 200.0f),
+            random(20.0f, 150.0f),
+            random(0.7f, 1.0f)
+        );
+
+        habitat.addAnimals(newAnimal);
+        zoo.setBuget(zoo.getBuget() - newAnimal.getPrice());
+        
+        std::cout << "Added " << newAnimal.getName() << " the " << newAnimal.getSpecies()
+                  << " to " << habitatTypeName << " habitat!" << std::endl;
+        std::cout << "Remaining budget: $" << zoo.getBuget() << std::endl;
+    }
+}
+
+void createInitialHabitats(Zoo& myZoo) {
     std::cout << "Now let's add some habitats!" << std::endl;
-    std::cout<< "Habitat price is $10,000." << std::endl;
+    std::cout << "Habitat price is $10,000." << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 
-    initialHabitatsAdd:
     int habitatsCount;
-    std::cout << "How many habitats do you want to add? ";
-    std::cin >> habitatsCount;
-
-    assert(habitatsCount > 0);
-
-    if (habitatsCount > 5)
-    {
-        std::cout << "You can only add up to 5 habitats at a time." << std::endl;
-        goto initialHabitatsAdd;
-    }
+    do {
+        std::cout << "How many habitats do you want to add? ";
+        std::cin >> habitatsCount;
+        
+        if (habitatsCount <= 0) {
+            std::cout << "You need to add at least one habitat!" << std::endl;
+        } else if (habitatsCount > 5) {
+            std::cout << "You can only add up to 5 habitats at a time." << std::endl;
+        }
+    } while (habitatsCount <= 0 || habitatsCount > 5);
 
     std::cout << "You have chosen to add " << habitatsCount << " habitats." << std::endl;
 
-
-    for (int i = 0; i < habitatsCount; i++)
-    {
-        initialHabitatsSelection:
-        std::cout << "What habitat do you want to add? 1. Forest 2. Desert 3. Ocean 4. Savanna 5. Mountain" << std::endl;
-        int habitatType;
-        std::cin >> habitatType;
-
-        if (habitatType < 1 || habitatType > 5)
-        {
-            std::cout << "Invalid habitat type! Please choose again." << std::endl;
-            goto initialHabitatsSelection;
-        }
-
+    for (int i = 0; i < habitatsCount; i++) {
+        std::string habitatTypeName = selectHabitatType();
         Habitat newHabitat("", {});
-        std::string habitatTypeName;
-
-        switch (habitatType) {
-            case 1:
-                habitatTypeName = "Forest";
-                break;
-            case 2:
-                habitatTypeName = "Desert";
-                break;
-            case 3:
-                habitatTypeName = "Ocean";
-                break;
-            case 4:
-                habitatTypeName = "Savanna";
-                break;
-            case 5:
-                habitatTypeName = "Mountain";
-                break;
-            default:
-                std::cout << "Invalid habitat type!" << std::endl;
-                continue;
-        }
-
         newHabitat.setType(habitatTypeName);
+        
         std::cout << "Habitat added: " << newHabitat.getType() << std::endl;
         std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
 
-        initialAnimalAdd:
         int animalCount;
         std::cout << "How many animals would you like to add to this " << habitatTypeName << " habitat? (0-5): ";
-        std::cout << "Animal price is $1000." << std::endl;
         std::cin >> animalCount;
-
-        if (animalCount < 0 || animalCount > 5) {
-            std::cout << "Invalid number of animals! Please choose again." << std::endl;
-            goto initialAnimalAdd;
-        }
-
-        for (int j = 0; j < animalCount; j++) {
-            std::cout << "Available species for " << habitatTypeName << " habitat:" << std::endl;
-
-            const std::vector<std::string>& species = habitatSpecies[habitatTypeName];
-            for (size_t k = 0; k < species.size(); k++) {
-                std::cout << (k + 1) << ". " << species[k] << std::endl;
-            }
-
-            int speciesChoice;
-            std::cout << "Choose a species (1-" << species.size() << "): ";
-            std::cin >> speciesChoice;
-
-            if (speciesChoice < 1 || speciesChoice > static_cast<int>(species.size())) {
-                std::cout << "Invalid choice. Defaulting to first species." << std::endl;
-                speciesChoice = 1;
-            }
-
-            std::string randomName = animalNames[random(0, static_cast<int>(animalNames.size()) - 1)];
-
-            Animal newAnimal(
-                randomName,
-                species[speciesChoice - 1],
-                random(1, 10),
-                random(10.0f, 200.0f),
-                random(20.0f, 150.0f),
-                random(0.7f, 1.0f)
-            );
-
-            
-
-            newHabitat.addAnimals(newAnimal);
-
-
-            std::cout << "Added " << newAnimal.getName() << " the " << newAnimal.getSpecies()
-                      << " to " << habitatTypeName << " habitat!" << std::endl;
-
-            myZoo.setBuget(myZoo.getBuget() - newAnimal.getPrice());
-            std::cout << "Remaining budget: $" << myZoo.getBuget() << std::endl;
-        }
-
+        
+        addAnimalsToHabitat(newHabitat, myZoo, animalCount);
         myZoo.addHabitats(newHabitat);
+    }
+}
 
+void addNewHabitat(Zoo& myZoo) {
+    std::cout << "Habitat price is $10,000." << std::endl;
+    if (myZoo.getBuget() < 10000) {
+        std::cout << "Not enough budget to add a habitat!" << std::endl;
+        return;
     }
 
+    std::string habitatTypeName = selectHabitatType();
+    
+    Habitat newHabitat("", {});
+    newHabitat.setType(habitatTypeName);
+    myZoo.addHabitats(newHabitat);
+    
+    std::cout << "Habitat added: " << habitatTypeName << std::endl;
+    std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
+
+    std::cout << "Would you like to add animals to this new habitat? (1 for Yes, 0 for No): ";
+    int addAnimals;
+    std::cin >> addAnimals;
+
+    if (addAnimals == 1) {
+        std::cout << "How many animals would you like to add? (0-5): ";
+        int animalCount;
+        std::cin >> animalCount;
+        
+        auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
+        addAnimalsToHabitat(habitats.back(), myZoo, animalCount);
+    }
+}
+
+void addAnimalsToExistingHabitat(Zoo& myZoo) {
+    auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
+    if (habitats.empty()) {
+        std::cout << "No habitats available!" << std::endl;
+        return;
+    }
+
+    std::cout << "Select a habitat to add animals to:" << std::endl;
+    for (size_t h = 0; h < habitats.size(); h++) {
+        std::cout << (h + 1) << ". " << habitats[h].getType()
+                  << " (Animals: " << habitats[h].getAnimals().size() << ")" << std::endl;
+    }
+
+    size_t habitatChoice;
+    std::cin >> habitatChoice;
+
+    if (habitatChoice < 1 || habitatChoice > habitats.size()) {
+        std::cout << "Invalid habitat choice!" << std::endl;
+        return;
+    }
+
+    Habitat& selectedHabitat = habitats[habitatChoice - 1];
+
+    std::cout << "How many animals would you like to add? (0-5): ";
+    int animalCount;
+    std::cin >> animalCount;
+    
+    addAnimalsToHabitat(selectedHabitat, myZoo, animalCount);
+}
+
+void handleDailyManagement(Zoo& myZoo) {
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << "Daily Management Options:" << std::endl;
+    std::cout << "1. Feed animals" << std::endl;
+    std::cout << "2. Add a new habitat" << std::endl;
+    std::cout << "3. Add animals to existing habitat" << std::endl;
+    std::cout << "4. Continue to next day" << std::endl;
+    std::cout << "Enter your choice: ";
+
+    int dailyChoice;
+    std::cin >> dailyChoice;
+
+    switch (dailyChoice) {
+        case 1:
+            myZoo.feedAnimals();
+            break;
+        case 2:
+            addNewHabitat(myZoo);
+            break;
+        case 3:
+            addAnimalsToExistingHabitat(myZoo);
+            break;
+        case 4:
+            std::cout << "Continuing to next day..." << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice. Continuing to next day..." << std::endl;
+            break;
+    }
+}
+
+void processDayEnd(Zoo& myZoo, int dayNumber) {
+    int habitatCount = myZoo.getHabitats().size();
+    int totalAnimals = 0;
+    for (const auto &habitat : myZoo.getHabitats()) {
+        totalAnimals += habitat.getAnimals().size();
+    }
+
+    int baseVisitors = habitatCount * 10 + totalAnimals * 5;
+    int variation = random(-5, 5);
+    int visitors = std::max(0, baseVisitors + variation);
+    const int ticketPrice = 15;
+    int revenue = visitors * ticketPrice;
+
+    myZoo.setVisitorCount(visitors);
+    myZoo.setBuget(myZoo.getBuget() + revenue);
+
+    std::cout << "----------------------------------------" << std::endl;
+    std::cout << "Day " << dayNumber << " Summary:" << std::endl;
+    std::cout << visitors << " visitors came in, earning $" << revenue << std::endl;
+    std::cout << "Current budget: $" << myZoo.getBuget() << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
+}
+
+void displayZooStatus(const Zoo& myZoo) {
     std::cout << "----------------------------------------" << std::endl;
     std::cout << "Your zoo is ready!" << std::endl;
     std::cout << myZoo << std::endl;
@@ -284,237 +387,29 @@ int main()
     }
 
     std::cout << "----------------------------------------" << std::endl;
+}
 
-
-    std::cout << "How many days do you want to simulate?" << std::endl;
-    int days;
-    std::cin >> days;
-    assert(days > 0);
+void runSimulation(Zoo& myZoo, int days) {
     std::cout << "You have chosen to simulate " << days << " days." << std::endl;
 
-
-    for (int i = 0; i < days; i++)
-    {
+    for (int i = 0; i < days; i++) {
         std::cout << "Day " << (i + 1) << " of simulation." << std::endl;
         myZoo.updateHunger(1.0f);
 
-        for (auto& habitat : const_cast<std::vector<Habitat>&>(myZoo.getHabitats()))
-        {
+        for (auto& habitat : const_cast<std::vector<Habitat>&>(myZoo.getHabitats())) {
             habitat.updateCleanliness(1.0f);
         }
 
-        std::cout << "----------------------------------------" << std::endl;
-        std::cout << "Daily Management Options:" << std::endl;
-        std::cout << "1. Feed animals" << std::endl;
-        std::cout << "2. Add a new habitat" << std::endl;
-        std::cout << "3. Add animals to existing habitat" << std::endl;
-        std::cout << "4. Continue to next day" << std::endl;
-        std::cout << "Enter your choice: ";
-
-        int dailyChoice;
-        std::cin >> dailyChoice;
-
-        switch (dailyChoice) {
-            case 1: {
-                myZoo.feedAnimals();
-                break;
-            }
-            case 2: {
-                std::cout << "Habitat price is $10,000." << std::endl;
-                if (myZoo.getBuget() < 10000) {
-                    std::cout << "Not enough budget to add a habitat!" << std::endl;
-                    break;
-                }
-
-                std::cout << "What habitat do you want to add? 1. Forest 2. Desert 3. Ocean 4. Savanna 5. Mountain" << std::endl;
-                int habitatType;
-                std::cin >> habitatType;
-
-                if (habitatType < 1 || habitatType > 5) {
-                    std::cout << "Invalid habitat type! Operation cancelled." << std::endl;
-                    break;
-                }
-
-                Habitat newHabitat("", {});
-                std::string habitatTypeName;
-
-                switch (habitatType) {
-                    case 1: habitatTypeName = "Forest"; break;
-                    case 2: habitatTypeName = "Desert"; break;
-                    case 3: habitatTypeName = "Ocean"; break;
-                    case 4: habitatTypeName = "Savanna"; break;
-                    case 5: habitatTypeName = "Mountain"; break;
-                    default: break;
-                }
-
-                newHabitat.setType(habitatTypeName);
-                myZoo.addHabitats(newHabitat);
-                std::cout << "Habitat added: " << habitatTypeName << std::endl;
-                std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
-
-                std::cout << "Would you like to add animals to this new habitat? (1 for Yes, 0 for No): ";
-                int addAnimals;
-                std::cin >> addAnimals;
-
-                if (addAnimals == 1) {
-                    std::cout << "How many animals would you like to add? (0-5): ";
-                    int animalCount;
-                    std::cin >> animalCount;
-
-                    if (animalCount < 0 || animalCount > 5) {
-                        std::cout << "Invalid number of animals! Defaulting to 0." << std::endl;
-                        animalCount = 0;
-                    }
-
-                    for (int j = 0; j < animalCount; j++) {
-                        if (myZoo.getBuget() < 1000) {
-                            std::cout << "Not enough budget to add more animals!" << std::endl;
-                            break;
-                        }
-
-                        std::cout << "Available species for " << habitatTypeName << " habitat:" << std::endl;
-                        const std::vector<std::string>& species = habitatSpecies[habitatTypeName];
-                        for (size_t k = 0; k < species.size(); k++) {
-                            std::cout << (k + 1) << ". " << species[k] << std::endl;
-                        }
-
-                        int speciesChoice;
-                        std::cout << "Choose a species (1-" << species.size() << "): ";
-                        std::cin >> speciesChoice;
-
-                        if (speciesChoice < 1 || speciesChoice > static_cast<int>(species.size())) {
-                            std::cout << "Invalid choice. Defaulting to first species." << std::endl;
-                            speciesChoice = 1;
-                        }
-
-                        std::string randomName = animalNames[random(0, static_cast<int>(animalNames.size()) - 1)];
-                        Animal newAnimal(
-                            randomName,
-                            species[speciesChoice - 1],
-                            random(1, 10),
-                            random(10.0f, 200.0f),
-                            random(20.0f, 150.0f),
-                            random(0.7f, 1.0f)
-                        );
-
-                        auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
-                        habitats.back().addAnimals(newAnimal);
-
-                        myZoo.setBuget(myZoo.getBuget() - newAnimal.getPrice());
-                        std::cout << "Added " << newAnimal.getName() << " the " << newAnimal.getSpecies()
-                                << " to " << habitatTypeName << " habitat!" << std::endl;
-                        std::cout << "Remaining budget: $" << myZoo.getBuget() << std::endl;
-                    }
-                }
-                break;
-            }
-            case 3: {
-                auto& habitats = const_cast<std::vector<Habitat>&>(myZoo.getHabitats());
-                if (habitats.empty()) {
-                    std::cout << "No habitats available!" << std::endl;
-                    break;
-                }
-
-                std::cout << "Select a habitat to add animals to:" << std::endl;
-                for (size_t h = 0; h < habitats.size(); h++) {
-                    std::cout << (h + 1) << ". " << habitats[h].getType()
-                              << " (Animals: " << habitats[h].getAnimals().size() << ")" << std::endl;
-                }
-
-                size_t habitatChoice;
-                std::cin >> habitatChoice;
-
-                if (habitatChoice < 1 || habitatChoice > habitats.size()) {
-                    std::cout << "Invalid habitat choice!" << std::endl;
-                    break;
-                }
-
-                Habitat& selectedHabitat = habitats[habitatChoice - 1];
-                std::string habitatType = selectedHabitat.getType();
-
-                std::cout << "How many animals would you like to add? (0-5): ";
-                int animalCount;
-                std::cin >> animalCount;
-
-                if (animalCount < 0 || animalCount > 5) {
-                    std::cout << "Invalid number of animals! Defaulting to 0." << std::endl;
-                    animalCount = 0;
-                }
-
-                for (int j = 0; j < animalCount; j++) {
-                    if (myZoo.getBuget() < 1000) {
-                        std::cout << "Not enough budget to add more animals!" << std::endl;
-                        break;
-                    }
-
-                    std::cout << "Available species for " << habitatType << " habitat:" << std::endl;
-                    const std::vector<std::string>& species = habitatSpecies[habitatType];
-                    for (size_t k = 0; k < species.size(); k++) {
-                        std::cout << (k + 1) << ". " << species[k] << std::endl;
-                    }
-
-                    int speciesChoice;
-                    std::cout << "Choose a species (1-" << species.size() << "): ";
-                    std::cin >> speciesChoice;
-
-                    if (speciesChoice < 1 || speciesChoice > static_cast<int>(species.size())) {
-                        std::cout << "Invalid choice. Defaulting to first species." << std::endl;
-                        speciesChoice = 1;
-                    }
-
-                    std::string randomName = animalNames[random(0, static_cast<int>(animalNames.size()) - 1)];
-                    Animal newAnimal(
-                        randomName,
-                        species[speciesChoice - 1],
-                        random(1, 10),
-                        random(10.0f, 200.0f),
-                        random(20.0f, 150.0f),
-                        random(0.7f, 1.0f)
-                    );
-
-                    selectedHabitat.addAnimals(newAnimal);
-                    myZoo.setBuget(myZoo.getBuget() - newAnimal.getPrice());
-                    std::cout << "Added " << newAnimal.getName() << " the " << newAnimal.getSpecies()
-                              << " to " << habitatType << " habitat!" << std::endl;
-                    std::cout << "Remaining budget: $" << myZoo.getBuget() << std::endl;
-                }
-                break;
-            }
-            case 4:
-                std::cout << "Continuing to next day..." << std::endl;
-                break;
-            default:
-                std::cout << "Invalid choice. Continuing to next day..." << std::endl;
-                break;
-        }
-
-        int habitatCount = myZoo.getHabitats().size();
-        int totalAnimals = 0;
-        for (const auto &habitat : myZoo.getHabitats()) {
-            totalAnimals += habitat.getAnimals().size();
-        }
-
-        int baseVisitors = habitatCount * 10 + totalAnimals * 5;
-        int variation = random(-5, 5);
-        int visitors = std::max(0, baseVisitors + variation);
-        const int ticketPrice = 15;
-        int revenue = visitors * ticketPrice;
-
-        myZoo.setVisitorCount(visitors);
-        myZoo.setBuget(myZoo.getBuget() + revenue);
-
-        std::cout << "----------------------------------------" << std::endl;
-        std::cout << "Day " << (i + 1) << " Summary:" << std::endl;
-        std::cout << visitors << " visitors came in, earning $" << revenue << std::endl;
-        std::cout << "Current budget: $" << myZoo.getBuget() << std::endl;
-        std::cout << "----------------------------------------" << std::endl;
+        handleDailyManagement(myZoo);
+        processDayEnd(myZoo, i + 1);
     }
 
-    std::cout<< "Simulation is over" << std::endl;
+    std::cout << "Simulation is over" << std::endl;
+}
 
-
-    //Random code to get CppCheck to work
-
+// For CppCheck compliance
+void RandomCodeForCppCheck() {
+    // Random code to get CppCheck to work
     Animal unusedAnimal("Unused", "Species", 1, 1.0f, 1.0f);
     unusedAnimal.setName("NewName");
     unusedAnimal.setSpecies("NewSpecies");
@@ -575,8 +470,20 @@ int main()
     std::cout << "Unused Visitor Type: " << unusedVisitor.getType() << std::endl;
 
     unusedAnimal.updateHealth();
-
-
-    return 0;
 }
 
+int main() {
+    Zoo myZoo = initializeZoo();
+    createInitialHabitats(myZoo);
+    displayZooStatus(myZoo);
+
+    int days;
+    std::cout << "How many days do you want to simulate?" << std::endl;
+    std::cin >> days;
+    assert(days > 0);
+    
+    runSimulation(myZoo, days);
+    
+    RandomCodeForCppCheck();
+    return 0;
+}
