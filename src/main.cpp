@@ -1,15 +1,15 @@
-#include <iostream>
 #include <array>
 #include <chrono>
-#include <thread>
+#include <iostream>
 #include <map>
 #include <random>
+#include <thread>
 #include <vector>
-#include "Animal.hpp"
-#include "Habitat.hpp"
-#include "Zoo.hpp"
-#include "Staff.hpp"
-#include "Visitor.hpp"
+#include "../include/Animal.hpp"
+#include "../include/Habitat.hpp"
+#include "../include/Staff.hpp"
+#include "../include/Visitor.hpp"
+#include "../include/Zoo.hpp"
 
 #include <SFML/Graphics.hpp>
 

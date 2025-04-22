@@ -57,18 +57,18 @@ endif()
 
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${MAIN_EXECUTABLE_NAME}
-    main.cpp
+        src/main.cpp
     generated/src/Helper.cpp
-        Animal.cpp
-        Animal.hpp
-        Habitat.cpp
-        Habitat.hpp
-        Zoo.cpp
-        Zoo.hpp
-        Staff.cpp
-        Staff.hpp
-        Visitor.cpp
-        Visitor.hpp
+        src/Animal.cpp
+        include/Animal.hpp
+        src/Habitat.cpp
+        include/Habitat.hpp
+        src/Zoo.cpp
+        include/Zoo.hpp
+        src/Staff.cpp
+        include/Staff.hpp
+        src/Visitor.cpp
+        include/Visitor.hpp
 )
 
 # NOTE: Add all defined targets (e.g. executables, libraries, etc. )

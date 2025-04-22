@@ -1,4 +1,4 @@
-#include "Visitor.hpp"
+#include "../include/Visitor.hpp"
 
 Visitor::Visitor(const std::string &name, int age, float money, const std::string &type)
     : name(name),

@@ -2,7 +2,7 @@
 // Created by Mihai Patru on 25.03.2025.
 //
 
-#include "Animal.hpp"
+#include "../include/Animal.hpp"
 
 Animal::Animal(const std::string &name, const std::string &species, int age, float weight, float height,
                float is_healthy, int price, float hunger)

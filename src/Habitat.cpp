@@ -1,7 +1,7 @@
-#include "Habitat.hpp"
+#include "../include/Habitat.hpp"
 
 Habitat::Habitat(const std::string &type, const std::vector<Animal> &animals, int capacity, float cleanlinessLevel,
-        float price)
+                 float price)
     : type(type),
       animals(animals),
       capacity(capacity),

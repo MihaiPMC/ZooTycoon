@@ -1,4 +1,4 @@
-#include "Zoo.hpp"
+#include "../include/Zoo.hpp"
 #include <algorithm>
 
 Zoo::Zoo(const std::string &name, const std::vector<Habitat> &habitats, int visitor_count, bool is_open, float budget)

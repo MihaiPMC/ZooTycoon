@@ -1,4 +1,4 @@
-#include "Staff.hpp"
+#include "../include/Staff.hpp"
 
 Staff::Staff(const std::string &name, const std::string &position, int age, float salary)
     : name(name),
