@@ -142,7 +142,7 @@ Zoo initializeZoo() {
 
     Zoo myZoo(zooName, {}, 0, true);
     std::cout << "Zoo created!" << std::endl;
-    std::cout << "Your budget is $" << myZoo.getBuget() << std::endl;
+    std::cout << "Your budget is $" << myZoo.getBudget() << std::endl;
     std::cout << "----------------------------------------" << std::endl;
     
     return myZoo;
@@ -180,7 +180,7 @@ void addAnimalsToHabitat(Habitat& habitat, Zoo& zoo, int animalCount) {
     std::cout << "Animal price is $1000." << std::endl;
     
     for (int j = 0; j < animalCount; j++) {
-        if (zoo.getBuget() < 1000) {
+        if (zoo.getBudget() < 1000) {
             std::cout << "Not enough budget to add more animals!" << std::endl;
             break;
         }
@@ -213,11 +213,11 @@ void addAnimalsToHabitat(Habitat& habitat, Zoo& zoo, int animalCount) {
         );
 
         habitat.addAnimals(newAnimal);
-        zoo.setBuget(zoo.getBuget() - newAnimal.getPrice());
+        zoo.setBudget(zoo.getBudget() - newAnimal.getPrice());
         
         std::cout << "Added " << newAnimal.getName() << " the " << newAnimal.getSpecies()
                   << " to " << habitatTypeName << " habitat!" << std::endl;
-        std::cout << "Remaining budget: $" << zoo.getBuget() << std::endl;
+        std::cout << "Remaining budget: $" << zoo.getBudget() << std::endl;
     }
 }
 
@@ -246,7 +246,7 @@ void createInitialHabitats(Zoo& myZoo) {
         newHabitat.setType(habitatTypeName);
         
         std::cout << "Habitat added: " << newHabitat.getType() << std::endl;
-        std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
+        std::cout << "You have $" << myZoo.getBudget() << " left." << std::endl;
 
         int animalCount;
         std::cout << "How many animals would you like to add to this " << habitatTypeName << " habitat? (0-5): ";
@@ -259,7 +259,7 @@ void createInitialHabitats(Zoo& myZoo) {
 
 void addNewHabitat(Zoo& myZoo) {
     std::cout << "Habitat price is $10,000." << std::endl;
-    if (myZoo.getBuget() < 10000) {
+    if (myZoo.getBudget() < 10000) {
         std::cout << "Not enough budget to add a habitat!" << std::endl;
         return;
     }
@@ -271,7 +271,7 @@ void addNewHabitat(Zoo& myZoo) {
     myZoo.addHabitats(newHabitat);
     
     std::cout << "Habitat added: " << habitatTypeName << std::endl;
-    std::cout << "You have $" << myZoo.getBuget() << " left." << std::endl;
+    std::cout << "You have $" << myZoo.getBudget() << " left." << std::endl;
 
     std::cout << "Would you like to add animals to this new habitat? (1 for Yes, 0 for No): ";
     int addAnimals;
@@ -362,12 +362,12 @@ void processDayEnd(Zoo& myZoo, int dayNumber) {
     int revenue = visitors * ticketPrice;
 
     myZoo.setVisitorCount(visitors);
-    myZoo.setBuget(myZoo.getBuget() + revenue);
+    myZoo.setBudget(myZoo.getBudget() + revenue);
 
     std::cout << "----------------------------------------" << std::endl;
     std::cout << "Day " << dayNumber << " Summary:" << std::endl;
     std::cout << visitors << " visitors came in, earning $" << revenue << std::endl;
-    std::cout << "Current budget: $" << myZoo.getBuget() << std::endl;
+    std::cout << "Current budget: $" << myZoo.getBudget() << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 }
 
@@ -443,11 +443,11 @@ void RandomCodeForCppCheck() {
     unusedZoo.setName("NewZooName");
     unusedZoo.setVisitorCount(100);
     unusedZoo.setIsOpen(true);
-    unusedZoo.setBuget(75000.0f);
+    unusedZoo.setBudget(75000.0f);
     std::cout << "Unused Zoo Name: " << unusedZoo.getName() << std::endl;
     std::cout << "Unused Zoo Visitor Count: " << unusedZoo.getVisitorCount() << std::endl;
     std::cout << "Unused Zoo Is Open: " << unusedZoo.getIsOpen() << std::endl;
-    std::cout << "Unused Zoo Budget: " << unusedZoo.getBuget() << std::endl;
+    std::cout << "Unused Zoo Budget: " << unusedZoo.getBudget() << std::endl;
 
     Staff unusedStaff("Name", "Position", 30, 60000.0f);
     unusedStaff.setName("NewStaffName");
